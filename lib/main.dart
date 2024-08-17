@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:newsapp/features/Fill%20Profile/fillprofile.dart';
 import 'package:newsapp/features/signup/controller/signupcontroller.dart';
+import 'package:newsapp/firebase_options.dart';
 import 'package:provider/provider.dart';
 import 'features/Fill Profile/controller/controller.dart';
 import 'features/login/controller/login_controller.dart';
 import 'features/splashscreen/splashscreen.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main(){
+void main() async{
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(
       MultiProvider(
       providers: [
@@ -16,8 +25,10 @@ void main(){
 
       ],
       child:  MyApp()
-      )
+      ),
   );
+
+
 
 }
 

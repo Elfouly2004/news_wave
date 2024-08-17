@@ -1,19 +1,23 @@
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:newsapp/features/news/newspage.dart';
 class logincontroller extends ChangeNotifier{
 
 
+  bool pass = false;
+  bool check =false;
 
   TextEditingController username = TextEditingController();
   TextEditingController password = TextEditingController();
 
-  GlobalKey<FormState> formkey1= GlobalKey <FormState>();
-  GlobalKey<FormState> formkey2= GlobalKey <FormState>();
+
+  GlobalKey<FormState> Username= GlobalKey <FormState>();
+  GlobalKey<FormState> Password= GlobalKey <FormState>();
 
 
-  bool pass = false;
-  bool check =false;
+
+
 
   validatorname(value){
     if(value!.isEmpty||value==null){
@@ -40,15 +44,23 @@ class logincontroller extends ChangeNotifier{
        notifyListeners();
   }
 
-  errormessage({required context}){
-    if(formkey1.currentState!.validate()==true && formkey2.currentState!.validate()==true){
+  errormessage({required context})async{
+
+
+    if(
+    Username.currentState!.validate()==true
+     && Password.currentState!.validate()==true
+    ){
+
       Navigator.push(context, MaterialPageRoute(builder: (context) {
         return newspage();
-      },
-      )
-      );
+      },));
+
+
+
     }
-    
+
+
     notifyListeners();
   }
 

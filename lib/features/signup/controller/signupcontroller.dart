@@ -1,16 +1,19 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:newsapp/features/Fill%20Profile/fillprofile.dart';
 
 import '../../news/newspage.dart';
 class signupcontroller extends ChangeNotifier {
 
 
-  TextEditingController Username = TextEditingController();
-  TextEditingController Password = TextEditingController();
-  TextEditingController Confirmpassword = TextEditingController();
+  final TextEditingController username = TextEditingController();
+  final TextEditingController Password = TextEditingController();
+  final TextEditingController Confirmpassword = TextEditingController();
 
-  GlobalKey<FormState> key1 = GlobalKey <FormState>();
-  GlobalKey<FormState> key2 = GlobalKey <FormState>();
-  GlobalKey<FormState> key3 = GlobalKey <FormState>();
+  GlobalKey<FormState> usernamekey = GlobalKey <FormState>();
+  GlobalKey<FormState> Passwordkey = GlobalKey <FormState>();
+  GlobalKey<FormState> Confirmpasswordkey = GlobalKey <FormState>();
+
 
 
   bool Pass = false;
@@ -50,22 +53,52 @@ class signupcontroller extends ChangeNotifier {
     notifyListeners();
   }
 
-  Errormessage({required context}) {
+  Errormessage({required context}) async{
+
+
+
     if (
-        key1.currentState!.validate() == true
-        &&
-        key2.currentState!.validate() == true
-        &&
-        key3.currentState!.validate() == true
+    usernamekey.currentState!.validate() == true
+     && Passwordkey.currentState!.validate() == true
+    && Confirmpasswordkey.currentState!.validate() == true
+
     ) {
-      Navigator.push(context, MaterialPageRoute(builder: (context) {
-        return newspage();
-      },
-      )
-      );
+
+      try {
+        final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: username.text.trim(),
+          password: Password.text.trim(),
+        );
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'weak-password') {
+
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("The password provided is too weak.")));
+
+        } else if (e.code == 'email-already-in-use') {
+          print('The account already exists for that email.');
+        }
+      } catch (e) {
+        print(e);
+      }
+
     }
 
     notifyListeners();
+
+
+    String? Username = username.text.trim();
+    String? pass =Password.text.trim();
+    String? confirmpass =Confirmpassword.text.trim();
+
+    if( Username.isNotEmpty&&pass.isNotEmpty &&confirmpass.isNotEmpty){
+      username.text="";
+      Password.text="";
+      Confirmpassword.text="";
+      notifyListeners();
+    }
+
+
   }
 
   hidepass() {

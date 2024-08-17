@@ -11,9 +11,9 @@ class fillprofilecontroller extends ChangeNotifier{
   TextEditingController Emailaddress = TextEditingController();
   TextEditingController phonenumber = TextEditingController();
 
-  GlobalKey<FormState> formkey1= GlobalKey <FormState>();
-  GlobalKey<FormState> formkey2= GlobalKey <FormState>();
-  GlobalKey<FormState> formkey3= GlobalKey <FormState>();
+  GlobalKey<FormState> key1= GlobalKey <FormState>();
+  GlobalKey<FormState> key2= GlobalKey <FormState>();
+  GlobalKey<FormState> key3= GlobalKey <FormState>();
 
 
   XFile ? myPhoto ;

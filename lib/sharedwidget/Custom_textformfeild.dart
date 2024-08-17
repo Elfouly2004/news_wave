@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:newsapp/core/utils/Appcolors.dart';
 
 class  CustomTextformfeild extends StatelessWidget {
   CustomTextformfeild
@@ -7,15 +8,17 @@ class  CustomTextformfeild extends StatelessWidget {
     required this.keyboardType,
     required this .suffixIcon,
     required this.obscureText,
-    required this.key,
-    required this.validator
+    required this.formKey,
+    required this.validator,
+    required this.controller
   }
   );
 final textfeild;
 final TextInputType? keyboardType;
 final Widget? suffixIcon;
 final bool obscureText;
-final Key? key;
+  final GlobalKey<FormState> formKey;
+final TextEditingController? controller;
 final String? Function(String?)? validator;
   @override
   Widget build(BuildContext context) {
@@ -23,14 +26,22 @@ final String? Function(String?)? validator;
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+         RichText(
+             text: TextSpan(
+           text: textfeild,
+           style: TextStyle(color: AppColors.black),
+           children: [
+             TextSpan(text:" *",style: TextStyle(color: Colors.red))
+           ]
+         )),
 
-            Text("${textfeild}"),
 
             Container(
               width: 379,
               child: Form(
-                key: key ,
+                key: formKey ,
                 child: TextFormField(
+                  controller: controller,
                     autofocus: false,
                   obscureText: obscureText,
 

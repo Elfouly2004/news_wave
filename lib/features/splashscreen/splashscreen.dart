@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:newsapp/core/utils/Appcolors.dart';
 import 'package:newsapp/core/utils/Appimages.dart';
 import 'package:newsapp/features/login/login.dart';
@@ -18,12 +19,15 @@ class _splashscreenState extends State<splashscreen> {
 
   void initState() {
 
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     super.initState();
     Future.delayed(const Duration(
         seconds: 2
     ) , () {
 
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (C) {
+        SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+            overlays: SystemUiOverlay.values);
         return loginscreen();
       } ));
     });

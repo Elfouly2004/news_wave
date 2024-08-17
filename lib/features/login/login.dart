@@ -35,9 +35,10 @@ class loginscreen extends StatelessWidget {
               SizedBox(height:MediaQuery.sizeOf(context).height*0.04 ,),
 
               CustomTextformfeild(
-                key: Provider.of<logincontroller>(context).formkey1,
+                controller: Provider.of<logincontroller>(context).username,
+                formKey: Provider.of<logincontroller>(context).Username,
                 textfeild: AppTexts.username,
-                keyboardType: TextInputType.name,
+                keyboardType: TextInputType.emailAddress,
                 suffixIcon: null,
                 obscureText: false,
                 validator: (p0) => Provider.of<logincontroller>(context,listen: false).validatorname(p0),
@@ -48,7 +49,8 @@ class loginscreen extends StatelessWidget {
               SizedBox(height:MediaQuery.sizeOf(context).height*0.01,),
 
               CustomTextformfeild(
-                key:  Provider.of<logincontroller>(context).formkey2,
+                controller: Provider.of<logincontroller>(context).password,
+                formKey:  Provider.of<logincontroller>(context).Password,
                   textfeild: AppTexts.password,
                 keyboardType: TextInputType.number,
               obscureText: Provider.of<logincontroller>(context).pass,
@@ -79,7 +81,11 @@ class loginscreen extends StatelessWidget {
               SizedBox(height:MediaQuery.sizeOf(context).height*0.02 ,),
 
               buttonshare(text: AppTexts.Login, onTap: () {
-                  Provider.of<logincontroller>(context,listen: false).errormessage(context: context);
+
+                // Provider.of<logincontroller>(context,listen: false).loginfirebase();
+
+                  Provider.of<logincontroller>(context,listen: false).
+                  errormessage(context: context);
 
                 },),
 

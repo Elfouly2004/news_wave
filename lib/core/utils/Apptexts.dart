@@ -14,10 +14,11 @@ class AppTexts {
   static const String facebook = "Facebook";
   static const String Google = "Google";
   static const String donthaveaccount  = "don’t have an account ?";
-  static const String ConfirmPassword  = "Confirm Password*";
+  static const String ConfirmPassword  = "Confirm Password";
   static const String fillprofile  = "Fill your Profile";
   static const String fullname  = "Full Name";
   static const String Phone  = "Phone Number";
   static const String Email  = "Email Address";
+  static const String Next  = "Next";
 
 }

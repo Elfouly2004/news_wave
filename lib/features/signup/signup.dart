@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:newsapp/features/Fill%20Profile/fillprofile.dart';
 import 'package:newsapp/features/login/login.dart';
 import 'package:newsapp/features/signup/controller/signupcontroller.dart';
 import 'package:newsapp/sharedwidget/Custom_Appbar.dart';
@@ -11,11 +10,24 @@ import '../../sharedwidget/Custom_textformfeild.dart';
 import '../../sharedwidget/anotherlogin.dart';
 import '../../sharedwidget/button.dart';
 import '../../sharedwidget/checkRow.dart';
-class signup extends StatelessWidget {
-signup({super.key});
+class signup extends StatefulWidget {
+
 
   @override
+  State<signup> createState() => _signupState();
+}
+
+class _signupState extends State<signup> {
+  @override
+
+  void dispose(){
+    super.dispose();
+    Provider.of<signupcontroller>(context,listen: false). username;
+    Provider.of<signupcontroller>(context,listen: false). Password;
+  }
+
   Widget build(BuildContext context) {
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Custom_Appbar(
@@ -38,7 +50,8 @@ signup({super.key});
             SizedBox(height:MediaQuery.sizeOf(context).height*0.03,),
 
             CustomTextformfeild(
-              key: Provider.of<signupcontroller>(context).key1,
+              controller: Provider.of<signupcontroller>(context).username,
+              formKey: Provider.of<signupcontroller>(context).usernamekey,
               textfeild: AppTexts.username,
                 keyboardType: TextInputType.name,
                 suffixIcon: null,
@@ -49,7 +62,8 @@ signup({super.key});
             SizedBox(height:MediaQuery.sizeOf(context).height*0.01,),
 
             CustomTextformfeild(
-              key: Provider.of<signupcontroller>(context).key2,
+              controller: Provider.of<signupcontroller>(context).Password,
+              formKey: Provider.of<signupcontroller>(context).Passwordkey,
               textfeild: AppTexts.password,
               keyboardType: TextInputType. number,
               suffixIcon:  IconButton(
@@ -66,7 +80,8 @@ signup({super.key});
             SizedBox(height:MediaQuery.sizeOf(context).height*0.01,),
 
             CustomTextformfeild(
-              key: Provider.of<signupcontroller>(context).key3,
+              controller: Provider.of<signupcontroller>(context).Confirmpassword,
+              formKey: Provider.of<signupcontroller>(context).Confirmpasswordkey,
               textfeild: AppTexts.ConfirmPassword,
               keyboardType: TextInputType.number,
               suffixIcon: IconButton(
@@ -91,6 +106,7 @@ signup({super.key});
             SizedBox(height:MediaQuery.sizeOf(context).height*0.01,),
 
             buttonshare(text: AppTexts.Signup, onTap: () {
+
               Provider.of<signupcontroller>(context,listen: false).Errormessage(context: context);
 
             },),
@@ -121,7 +137,7 @@ signup({super.key});
                 TextButton(
                     onPressed: () {
                       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-                        return fillprofile();
+                        return loginscreen();
                       },));
                     },
                     child: Text(AppTexts.Login,style: TextStyle(fontSize: 14,color:  AppColors.blue,fontWeight: FontWeight.w600),))

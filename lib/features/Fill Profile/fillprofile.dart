@@ -8,6 +8,7 @@ import 'package:newsapp/features/Fill%20Profile/controller/controller.dart';
 import 'package:provider/provider.dart';
 
 import '../../sharedwidget/Custom_textformfeild.dart';
+import '../../sharedwidget/button.dart';
 
 class fillprofile extends StatefulWidget {
   const fillprofile({super.key});
@@ -31,7 +32,7 @@ class _fillprofileState extends State<fillprofile> {
           children: [
 
 
-            SizedBox(height:MediaQuery.sizeOf(context).height*0.1 ,),
+            SizedBox(height:MediaQuery.sizeOf(context).height*0.06 ,),
 
 
             Center(
@@ -46,7 +47,7 @@ class _fillprofileState extends State<fillprofile> {
                 )
             ),
 
-            SizedBox(height:MediaQuery.sizeOf(context).height*0.05 ,),
+            SizedBox(height:MediaQuery.sizeOf(context).height*0.03 ,),
 
 
 
@@ -102,7 +103,8 @@ class _fillprofileState extends State<fillprofile> {
 
 
             CustomTextformfeild(
-              key:  Provider.of<fillprofilecontroller>(context).formkey1,
+              controller:  Provider.of<fillprofilecontroller>(context).fullname,
+              formKey:  Provider.of<fillprofilecontroller>(context).key1,
               validator: null,
               obscureText: false,
               suffixIcon: null,
@@ -113,7 +115,8 @@ class _fillprofileState extends State<fillprofile> {
             SizedBox(height:MediaQuery.sizeOf(context).height*0.02 ,),
 
             CustomTextformfeild(
-              key:  Provider.of<fillprofilecontroller>(context).formkey2,
+              controller:  Provider.of<fillprofilecontroller>(context).Emailaddress,
+              formKey:  Provider.of<fillprofilecontroller>(context).key2,
               validator: null,
               obscureText: false,
               suffixIcon: null,
@@ -124,7 +127,8 @@ class _fillprofileState extends State<fillprofile> {
             SizedBox(height:MediaQuery.sizeOf(context).height*0.02 ,),
 
             CustomTextformfeild(
-              key:  Provider.of<fillprofilecontroller>(context).formkey3,
+              controller:  Provider.of<fillprofilecontroller>(context).phonenumber,
+              formKey:  Provider.of<fillprofilecontroller>(context).key3,
               validator: null,
               obscureText: false,
               suffixIcon: null,
@@ -132,8 +136,12 @@ class _fillprofileState extends State<fillprofile> {
               textfeild: AppTexts.Phone,
             ) ,
 
+            SizedBox(height:MediaQuery.sizeOf(context).height*0.25 ,),
 
 
+            buttonshare(text: AppTexts.Next, onTap: () {
+
+            },),
 
 
 
