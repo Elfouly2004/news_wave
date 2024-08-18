@@ -1,9 +1,14 @@
+
+
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:newsapp/features/Fill%20Profile/fillprofile.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:newsapp/features/signup/controller/signup_states.dart';
 
-import '../../news/newspage.dart';
-class signupcontroller extends ChangeNotifier {
+class RegisterCubit extends Cubit<SignupStates> {
+  RegisterCubit() :super(SignupInitialState());
+
 
 
   final TextEditingController username = TextEditingController();
@@ -50,7 +55,7 @@ class signupcontroller extends ChangeNotifier {
 
   Checkbox(v) {
     Check = !Check;
-    notifyListeners();
+
   }
 
   Errormessage({required context}) async{
@@ -59,26 +64,35 @@ class signupcontroller extends ChangeNotifier {
 
     if (
     usernamekey.currentState!.validate() == true
-     && Passwordkey.currentState!.validate() == true
-    && Confirmpasswordkey.currentState!.validate() == true
+        && Passwordkey.currentState!.validate() == true
+        && Confirmpasswordkey.currentState!.validate() == true
 
     ) {
-
+      emit(SignupLoadingState());
       try {
         final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: username.text.trim(),
           password: Password.text.trim(),
         );
+        emit(RegisterSuccessState());
+
+
       } on FirebaseAuthException catch (e) {
         if (e.code == 'weak-password') {
+          emit(SignupFailureState(errorMessage: "Weak password"));
+
 
           ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("The password provided is too weak.")));
 
         } else if (e.code == 'email-already-in-use') {
-          print('The account already exists for that email.');
+          emit(SignupFailureState(errorMessage: "Email Already In Use"));
         }
       } catch (e) {
+        emit(SignupFailureState(
+            errorMessage: "Oops, An Occurred Error ${e.toString()}"
+
+        ));
         print(e);
       }
 
@@ -94,24 +108,23 @@ class signupcontroller extends ChangeNotifier {
       username.text="";
       Password.text="";
       Confirmpassword.text="";
-      notifyListeners();
+
     }
 
-    Navigator.push(context, MaterialPageRoute(builder: (context) => fillprofile(),));
-
-    notifyListeners();
 
   }
 
   hidepass() {
     Pass = !Pass;
-    notifyListeners();
   }
 
 
   hideconfirmpass() {
     conPass =! conPass;
-    notifyListeners();
+
   }
 
+
+
 }
+

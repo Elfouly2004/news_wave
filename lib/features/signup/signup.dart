@@ -52,7 +52,7 @@ class _signupState extends State<signup> {
             CustomTextformfeild(
               controller: Provider.of<signupcontroller>(context).username,
               formKey: Provider.of<signupcontroller>(context).usernamekey,
-              textfeild: AppTexts.username,
+              textfeild: AppTexts.email,
                 keyboardType: TextInputType.name,
                 suffixIcon: null,
                 obscureText: false,
@@ -108,6 +108,7 @@ class _signupState extends State<signup> {
             buttonshare(text: AppTexts.Signup, onTap: () {
 
               Provider.of<signupcontroller>(context,listen: false).Errormessage(context: context);
+
 
             },),
 

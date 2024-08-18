@@ -57,9 +57,11 @@ final String? Function(String?)? validator;
                   decoration: InputDecoration(
                     suffixIcon: suffixIcon,
                     border: OutlineInputBorder(
+
                       borderRadius: BorderRadius.circular(6),
                       borderSide: BorderSide(
                       color: Colors.black,
+                        width: 5
 
                     ),
                     ),
