@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:newsapp/core/utils/Apptexts.dart';
-import 'package:newsapp/features/login/controller/login_controller.dart';
+import 'package:newsapp/features/login/controller/login_cubit.dart';
 import 'package:newsapp/features/signup/signup.dart';
 import 'package:newsapp/sharedwidget/Custom_Appbar.dart';
-import 'package:provider/provider.dart';
-
 import '../../core/utils/Appcolors.dart';
 import '../../core/utils/Appimages.dart';
 import '../../sharedwidget/Custom_textformfeild.dart';
 import '../../sharedwidget/anotherlogin.dart';
 import '../../sharedwidget/button.dart';
 import '../../sharedwidget/checkRow.dart';
-import '../news/newspage.dart';
 
-class loginscreen extends StatelessWidget {
+class loginscreen extends StatefulWidget {
   const loginscreen({super.key});
 
+  @override
+  State<loginscreen> createState() => _loginscreenState();
+}
+
+class _loginscreenState extends State<loginscreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,13 +38,13 @@ class loginscreen extends StatelessWidget {
               SizedBox(height:MediaQuery.sizeOf(context).height*0.04 ,),
 
               CustomTextformfeild(
-                controller: Provider.of<logincontroller>(context).username,
-                formKey: Provider.of<logincontroller>(context).Username,
+                controller: BlocProvider.of<LoginCubit>(context).username,
+                formKey: BlocProvider.of<LoginCubit>(context).Username,
                 textfeild: AppTexts.username,
                 keyboardType: TextInputType.emailAddress,
                 suffixIcon: null,
                 obscureText: false,
-                validator: (p0) => Provider.of<logincontroller>(context,listen: false).validatorname(p0),
+                validator: (p0) => BlocProvider.of<LoginCubit>(context).validatorname(p0),
 
 
               ),
@@ -49,19 +52,19 @@ class loginscreen extends StatelessWidget {
               SizedBox(height:MediaQuery.sizeOf(context).height*0.01,),
 
               CustomTextformfeild(
-                controller: Provider.of<logincontroller>(context).password,
-                formKey:  Provider.of<logincontroller>(context).Password,
+                controller: BlocProvider.of<LoginCubit>(context).password,
+                formKey:  BlocProvider.of<LoginCubit>(context).Password,
                   textfeild: AppTexts.password,
                 keyboardType: TextInputType.number,
-              obscureText: Provider.of<logincontroller>(context).pass,
+              obscureText: BlocProvider.of<LoginCubit>(context).pass,
               suffixIcon: IconButton(
                 onPressed: () {
-                  Provider.of<logincontroller>(context,listen: false).hidepass();
+                  BlocProvider.of<LoginCubit>(context).hidepass();
                 },
                 icon: Icon(Icons.remove_red_eye_rounded),
                 color: AppColors.blue,
               ),
-                validator: (p0) =>Provider.of<logincontroller>(context,listen: false).validatorpass(p0) ,
+                validator: (p0) =>BlocProvider.of<LoginCubit>(context).validatorpass(p0) ,
 
 
 
@@ -73,9 +76,13 @@ class loginscreen extends StatelessWidget {
                 text:  Text(
                   AppTexts.Forgotpassword,style: TextStyle(color: AppColors.blue),
                 ),
-                 value: Provider.of<logincontroller>(context).check,
+                 value: BlocProvider.of<LoginCubit>(context).check,
                 onchange: (v) {
-                 Provider.of<logincontroller>(context,listen: false).checkbox(context);
+setState(() {
+  print("${BlocProvider.of<LoginCubit>(context).check}");
+  BlocProvider.of<LoginCubit>(context).checkbox(context);
+});
+
                 },),
 
               SizedBox(height:MediaQuery.sizeOf(context).height*0.02 ,),
@@ -84,7 +91,7 @@ class loginscreen extends StatelessWidget {
 
                 // Provider.of<logincontroller>(context,listen: false).loginfirebase();
 
-                  Provider.of<logincontroller>(context,listen: false).
+                BlocProvider.of<LoginCubit>(context).
                   errormessage(context: context);
 
                 },),
@@ -116,9 +123,9 @@ class loginscreen extends StatelessWidget {
                   Text(AppTexts.donthaveaccount),
                   TextButton(
                     onPressed: () {
-           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-           return signup();
-          },));
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+                    return Signup();
+                     },));
                     },
                       child: Text(AppTexts.Signup,style: TextStyle(fontSize: 14,color:  AppColors.blue,fontWeight: FontWeight.w600),))
 

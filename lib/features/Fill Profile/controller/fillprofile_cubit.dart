@@ -5,8 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:newsapp/features/Fill%20Profile/controller/fillprofile_states.dart';
 
-class RegisterCubit extends Cubit<FillprofileStates> {
-  RegisterCubit() :super(FillprofileInitialState());
+class FillprofileCubit extends Cubit<FillprofileStates> {
+  FillprofileCubit() :super(FillprofileInitialState());
 
 
 
@@ -28,15 +28,16 @@ class RegisterCubit extends Cubit<FillprofileStates> {
     return image;
 
   }
+
   choosephoto(){
 
-    emit(FillprofileLoadingState());
+
 
     pickImage().then((value) {
       myPhoto=value;
     },);
 
-    emit(FillprofileuccessState());
+
 
   }
 

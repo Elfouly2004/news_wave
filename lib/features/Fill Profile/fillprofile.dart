@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:newsapp/core/utils/Appcolors.dart';
 import 'package:newsapp/core/utils/Apptexts.dart';
-import 'package:newsapp/features/Fill%20Profile/controller/controller.dart';
-import 'package:provider/provider.dart';
+import 'package:newsapp/features/Fill%20Profile/controller/fillprofile_cubit.dart';
+
 
 import '../../sharedwidget/Custom_textformfeild.dart';
 import '../../sharedwidget/button.dart';
@@ -47,8 +47,8 @@ class _fillprofileState extends State<fillprofile> {
                 )
             ),
 
-            SizedBox(height:MediaQuery.sizeOf(context).height*0.03 ,),
 
+            SizedBox(height:MediaQuery.sizeOf(context).height*0.02 ,),
 
 
 
@@ -67,12 +67,12 @@ class _fillprofileState extends State<fillprofile> {
                   ),
                   child:
 
-               Provider.of<fillprofilecontroller>(context).myPhoto==null?
+                  BlocProvider.of<FillprofileCubit>(context).myPhoto==null?
                       Icon(Icons.photo)
                       : ClipRRect(
                       borderRadius: BorderRadius.circular(90),
                       child: Image.file(
-                        File( Provider.of<fillprofilecontroller>(context) .myPhoto!.path),
+                        File( BlocProvider.of<FillprofileCubit>(context) .myPhoto!.path),
                         fit: BoxFit.cover,)
                   ),
                 ),
@@ -80,7 +80,7 @@ class _fillprofileState extends State<fillprofile> {
                 GestureDetector(
                   onTap: () {
 
-                    Provider.of<fillprofilecontroller>(context,listen: false).choosephoto();
+                    BlocProvider.of<FillprofileCubit>(context).choosephoto();
 
                   },
                   child: Container(
@@ -100,11 +100,11 @@ class _fillprofileState extends State<fillprofile> {
               ],
             ),
 
-
+            SizedBox(height:MediaQuery.sizeOf(context).height*0.05 ,),
 
             CustomTextformfeild(
-              controller:  Provider.of<fillprofilecontroller>(context).fullname,
-              formKey:  Provider.of<fillprofilecontroller>(context).key1,
+              controller: BlocProvider.of<FillprofileCubit>(context).fullname,
+              formKey:  BlocProvider.of<FillprofileCubit>(context).key1,
               validator: null,
               obscureText: false,
               suffixIcon: null,
@@ -115,8 +115,8 @@ class _fillprofileState extends State<fillprofile> {
             SizedBox(height:MediaQuery.sizeOf(context).height*0.02 ,),
 
             CustomTextformfeild(
-              controller:  Provider.of<fillprofilecontroller>(context).Emailaddress,
-              formKey:  Provider.of<fillprofilecontroller>(context).key2,
+              controller: BlocProvider.of<FillprofileCubit>(context).Emailaddress,
+              formKey: BlocProvider.of<FillprofileCubit>(context).key2,
               validator: null,
               obscureText: false,
               suffixIcon: null,
@@ -127,8 +127,8 @@ class _fillprofileState extends State<fillprofile> {
             SizedBox(height:MediaQuery.sizeOf(context).height*0.02 ,),
 
             CustomTextformfeild(
-              controller:  Provider.of<fillprofilecontroller>(context).phonenumber,
-              formKey:  Provider.of<fillprofilecontroller>(context).key3,
+              controller: BlocProvider.of<FillprofileCubit>(context).phonenumber,
+              formKey: BlocProvider.of<FillprofileCubit>(context).key3,
               validator: null,
               obscureText: false,
               suffixIcon: null,
@@ -136,7 +136,7 @@ class _fillprofileState extends State<fillprofile> {
               textfeild: AppTexts.Phone,
             ) ,
 
-            SizedBox(height:MediaQuery.sizeOf(context).height*0.25 ,),
+            SizedBox(height:MediaQuery.sizeOf(context).height*0.1 ,),
 
 
             buttonshare(text: AppTexts.Next, onTap: () {
@@ -147,7 +147,9 @@ class _fillprofileState extends State<fillprofile> {
 
 
 
-        ],
+
+
+          ],
         ),
       ),
     );

@@ -9,8 +9,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../news/newspage.dart';
 import 'login_states.dart';
 
-class RegisterCubit extends Cubit<LoginStates> {
-  RegisterCubit() :super(LoginInitialState());
+class LoginCubit extends Cubit<LoginStates> {
+  LoginCubit() :super(LoginInitialState());
 
   bool pass = false;
   bool check =false;
@@ -47,7 +47,10 @@ class RegisterCubit extends Cubit<LoginStates> {
   }
 
   checkbox(v){
+
     check=!check;
+
+    emit(LoginSuccessState());
 
   }
 

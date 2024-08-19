@@ -4,10 +4,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:newsapp/features/Fill%20Profile/fillprofile.dart';
 import 'package:newsapp/features/signup/controller/signup_states.dart';
 
-class RegisterCubit extends Cubit<SignupStates> {
-  RegisterCubit() :super(SignupInitialState());
+class SignupCubit extends Cubit<SignupStates> {
+  SignupCubit() :super(SignupInitialState());
 
 
 
@@ -27,7 +28,7 @@ class RegisterCubit extends Cubit<SignupStates> {
 
   Validatorname(value) {
     if (value!.isEmpty || value == null) {
-      return ("Invalid Username");
+      return (" 🚫 Invalid Username");
     } else {
       return null;
     }
@@ -35,7 +36,7 @@ class RegisterCubit extends Cubit<SignupStates> {
 
   Validatorpass(value) {
     if (value!.isEmpty || value == null) {
-      return ("Password error");
+      return ("🚫 Password error");
     }
     else {
       return null;
@@ -45,20 +46,20 @@ class RegisterCubit extends Cubit<SignupStates> {
 
   Validatorconfirmpass(value) {
     if (value!.isEmpty || value == null) {
-      return ("write cofirm pass");
+      return ("🚫 write cofirm pass");
     }
     else {
       return null;
     }
   }
 
-
   Checkbox(v) {
     Check = !Check;
+    emit(SignupSuccessState());
 
   }
 
-  Errormessage({required context}) async{
+  Signup({required context}) async{
 
 
 
@@ -69,12 +70,28 @@ class RegisterCubit extends Cubit<SignupStates> {
 
     ) {
       emit(SignupLoadingState());
+
       try {
         final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: username.text.trim(),
           password: Password.text.trim(),
         );
-        emit(RegisterSuccessState());
+
+        emit(SignupSuccessState());
+
+        Navigator.push(context, MaterialPageRoute(builder: (context) => fillprofile(),));
+
+        String? Username = username.text.trim();
+        String? pass =Password.text.trim();
+        String? confirmpass =Confirmpassword.text.trim();
+
+        if( Username.isNotEmpty&&pass.isNotEmpty &&confirmpass.isNotEmpty){
+          username.text="";
+          Password.text="";
+          Confirmpassword.text="";
+
+        }
+
 
 
       } on FirebaseAuthException catch (e) {
@@ -100,16 +117,6 @@ class RegisterCubit extends Cubit<SignupStates> {
 
 
 
-    String? Username = username.text.trim();
-    String? pass =Password.text.trim();
-    String? confirmpass =Confirmpassword.text.trim();
-
-    if( Username.isNotEmpty&&pass.isNotEmpty &&confirmpass.isNotEmpty){
-      username.text="";
-      Password.text="";
-      Confirmpassword.text="";
-
-    }
 
 
   }

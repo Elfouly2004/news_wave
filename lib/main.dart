@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:newsapp/features/signup/controller/signupcontroller.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:newsapp/features/Fill%20Profile/controller/fillprofile_cubit.dart';
+import 'package:newsapp/features/login/controller/login_cubit.dart';
+import 'package:newsapp/features/signup/controller/signup_cubit.dart';
 import 'package:newsapp/firebase_options.dart';
-import 'package:provider/provider.dart';
-import 'features/Fill Profile/controller/controller.dart';
-import 'features/login/controller/login_controller.dart';
 import 'features/splashscreen/splashscreen.dart';
 import 'package:firebase_core/firebase_core.dart';
+
 
 void main() async{
 
@@ -17,11 +18,18 @@ void main() async{
   );
 
   runApp(
-      MultiProvider(
+      MultiBlocProvider(
       providers: [
-        ChangeNotifierProvider(create:(context) =>logincontroller()),
-        ChangeNotifierProvider(create:(context) =>signupcontroller()),
-        ChangeNotifierProvider(create:(context) =>fillprofilecontroller()),
+        BlocProvider<SignupCubit>(
+          create: (context) => SignupCubit(),
+        ),
+        BlocProvider<LoginCubit>(
+          create: (context) => LoginCubit(),
+        ),
+
+        BlocProvider<FillprofileCubit>(
+          create: (context) => FillprofileCubit(),
+        ),
 
       ],
       child:  MyApp()
