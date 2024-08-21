@@ -3,8 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:newsapp/features/Fill%20Profile/controller/fillprofile_states.dart';
-
+import 'package:newsapp/features/Fill%20Profile/presentation/controller/fillprofile_states.dart';
 class FillprofileCubit extends Cubit<FillprofileStates> {
   FillprofileCubit() :super(FillprofileInitialState());
 

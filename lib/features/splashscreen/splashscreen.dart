@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:newsapp/core/utils/Appcolors.dart';
 import 'package:newsapp/core/utils/Appimages.dart';
-import 'package:newsapp/features/login/login.dart';
+import 'package:newsapp/features/login/presentation/view/login.dart';
 
 
 class splashscreen extends StatefulWidget {

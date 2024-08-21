@@ -10,6 +10,7 @@ class Custom_Appbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      automaticallyImplyLeading: false,
       backgroundColor: AppColors.blue,
         toolbarHeight:MediaQuery.sizeOf(context).height*0.3,
       title: Center(

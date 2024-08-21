@@ -4,7 +4,7 @@
 class AppTexts {
 
   static const String Appname = "NEWS WAVE";
-  static const String username = "Username";
+  static const String Emaillogin = "Email";
   static const String email = "Email";
   static const String password = "password";
   static const String Rememberme  = "Remember me ";

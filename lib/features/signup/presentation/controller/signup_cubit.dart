@@ -4,8 +4,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:newsapp/features/Fill%20Profile/fillprofile.dart';
-import 'package:newsapp/features/signup/controller/signup_states.dart';
+import 'package:newsapp/features/signup/presentation/controller/signup_states.dart';
+
+import '../../../Fill Profile/presentation/view/fillprofile.dart';
 
 class SignupCubit extends Cubit<SignupStates> {
   SignupCubit() :super(SignupInitialState());
@@ -28,7 +29,7 @@ class SignupCubit extends Cubit<SignupStates> {
 
   Validatorname(value) {
     if (value!.isEmpty || value == null) {
-      return (" 🚫 Invalid Username");
+      return (" 🚫 Invalid Email");
     } else {
       return null;
     }
@@ -48,8 +49,8 @@ class SignupCubit extends Cubit<SignupStates> {
     if (value!.isEmpty || value == null) {
       return ("🚫 write cofirm pass");
     }
-    else {
-      return null;
+    else if(Password.text!=Confirmpassword.text){
+      return ("🚫 password not same Confirmpassword");;
     }
   }
 
@@ -67,6 +68,7 @@ class SignupCubit extends Cubit<SignupStates> {
     usernamekey.currentState!.validate() == true
         && Passwordkey.currentState!.validate() == true
         && Confirmpasswordkey.currentState!.validate() == true
+
 
     ) {
       emit(SignupLoadingState());
@@ -104,6 +106,10 @@ class SignupCubit extends Cubit<SignupStates> {
 
         } else if (e.code == 'email-already-in-use') {
           emit(SignupFailureState(errorMessage: "Email Already In Use"));
+
+        }else if(Password != Confirmpassword){
+          emit(SignupFailureState(errorMessage: "password not same Confirmpassowrd"));
+
         }
       } catch (e) {
         emit(SignupFailureState(
@@ -123,11 +129,13 @@ class SignupCubit extends Cubit<SignupStates> {
 
   hidepass() {
     Pass = !Pass;
+    emit(SignupSuccessState());
   }
 
 
   hideconfirmpass() {
     conPass =! conPass;
+    emit(SignupSuccessState());
 
   }
 

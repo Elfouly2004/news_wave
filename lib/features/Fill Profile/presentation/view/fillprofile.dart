@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:newsapp/core/utils/Appcolors.dart';
 import 'package:newsapp/core/utils/Apptexts.dart';
-import 'package:newsapp/features/Fill%20Profile/controller/fillprofile_cubit.dart';
 
 
-import '../../sharedwidget/Custom_textformfeild.dart';
-import '../../sharedwidget/button.dart';
+import '../../../../sharedwidget/Custom_textformfeild.dart';
+import '../../../../sharedwidget/button.dart';
+import '../controller/fillprofile_cubit.dart';
 
 class fillprofile extends StatefulWidget {
   const fillprofile({super.key});

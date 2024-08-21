@@ -8,6 +8,8 @@ class AppImages {
   static const passwordeye = "assets/images/Vector (1).png";
   static const facebook = "assets/images/Icon.png";
   static const google = "assets/images/Icon (2).png";
+  static const openeye = "assets/images/Vector (1).png";
+  static const closeeye = "assets/images/Vector.png";
 
 
 }

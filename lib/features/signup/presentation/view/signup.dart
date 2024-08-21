@@ -1,17 +1,19 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:newsapp/features/login/login.dart';
-import 'package:newsapp/features/signup/controller/signup_cubit.dart';
-import 'package:newsapp/features/signup/controller/signup_states.dart';
+import 'package:newsapp/features/login/presentation/view/login.dart';
+import 'package:newsapp/features/signup/presentation/controller/signup_cubit.dart';
+import 'package:newsapp/features/signup/presentation/controller/signup_states.dart';
 import 'package:newsapp/sharedwidget/Custom_Appbar.dart';
-import '../../core/utils/Appcolors.dart';
-import '../../core/utils/Appimages.dart';
-import '../../core/utils/Apptexts.dart';
-import '../../sharedwidget/Custom_textformfeild.dart';
-import '../../sharedwidget/anotherlogin.dart';
-import '../../sharedwidget/button.dart';
-import '../../sharedwidget/checkRow.dart';
+import '../../../../core/utils/Appcolors.dart';
+import '../../../../core/utils/Appimages.dart';
+import '../../../../core/utils/Apptexts.dart';
+import '../../../../sharedwidget/Custom_textformfeild.dart';
+import '../../../../sharedwidget/anotherlogin.dart';
+import '../../../../sharedwidget/button.dart';
+import '../../../../sharedwidget/checkRow.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:cupertino_icons/cupertino_icons.dart';
 
 class Signup extends StatefulWidget {
   @override
@@ -56,6 +58,9 @@ class _SignupState extends State<Signup> {
         builder: (context, state) {
 
           return ModalProgressHUD(
+            progressIndicator: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+            ),
             inAsyncCall: saving,
             child: Custom_Appbar(
               height: MediaQuery.sizeOf(context).height * 0.8,
@@ -80,7 +85,7 @@ class _SignupState extends State<Signup> {
                       controller: BlocProvider.of<SignupCubit>(context).username,
                       formKey: BlocProvider.of<SignupCubit>(context).usernamekey,
                       textfeild: AppTexts.email,
-                      keyboardType: TextInputType.name,
+                      keyboardType: TextInputType.emailAddress,
                       suffixIcon: null,
                       obscureText: false,
                       validator: (p0) =>
@@ -94,13 +99,15 @@ class _SignupState extends State<Signup> {
                       controller: BlocProvider.of<SignupCubit>(context).Password,
                       formKey: BlocProvider.of<SignupCubit>(context).Passwordkey,
                       textfeild: AppTexts.password,
-                      keyboardType: TextInputType.number,
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          BlocProvider.of<SignupCubit>(context).hidepass();
-                        },
-                        icon: Icon(Icons.remove_red_eye_rounded),
-                        color: AppColors.blue,
+                      keyboardType: TextInputType.text,
+                      suffixIcon:GestureDetector(
+                          onTap:() =>  BlocProvider.of<SignupCubit>(context).hidepass()
+                          
+                          ,child:BlocProvider.of<SignupCubit>(context).Pass==true ?
+                      Icon(CupertinoIcons.eye_slash_fill, color: AppColors.blue)
+
+                        :Icon(CupertinoIcons.eye_fill, color: AppColors.blue),
+
                       ),
                       obscureText: BlocProvider.of<SignupCubit>(context).Pass,
                       validator: (p0) =>
@@ -112,21 +119,21 @@ class _SignupState extends State<Signup> {
                     CustomTextformfeild(
                       controller:
                       BlocProvider.of<SignupCubit>(context).Confirmpassword,
-                      formKey: BlocProvider.of<SignupCubit>(context)
-                          .Confirmpasswordkey,
+                      formKey: BlocProvider.of<SignupCubit>(context).Confirmpasswordkey,
                       textfeild: AppTexts.ConfirmPassword,
-                      keyboardType: TextInputType.number,
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          BlocProvider.of<SignupCubit>(context).hideconfirmpass();
-                        },
-                        icon: Icon(Icons.remove_red_eye_rounded),
-                        color: AppColors.blue,
+                      keyboardType: TextInputType.text,
+                      suffixIcon: GestureDetector(
+                        onTap:() =>  BlocProvider.of<SignupCubit>(context).hideconfirmpass()
+
+                        ,child:BlocProvider.of<SignupCubit>(context).conPass==true ?
+                      Icon(CupertinoIcons.eye_slash_fill, color: AppColors.blue)
+
+                          :Icon(CupertinoIcons.eye_fill, color: AppColors.blue),
+
                       ),
                       obscureText:
                       BlocProvider.of<SignupCubit>(context).conPass,
-                      validator: (p0) => BlocProvider.of<SignupCubit>(context)
-                          .Validatorconfirmpass(p0),
+                      validator: (p0) => BlocProvider.of<SignupCubit>(context).Validatorconfirmpass(p0),
                     ),
 
 
@@ -177,7 +184,7 @@ class _SignupState extends State<Signup> {
                         Text(AppTexts.donthaveaccount),
                         TextButton(
                           onPressed: () {
-                            Navigator.pushReplacement(context,
+                            Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
                                   return loginscreen();
                                 }));
