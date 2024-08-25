@@ -11,6 +11,7 @@ import '../../../../sharedwidget/Custom_textformfeild.dart';
 import '../../../../sharedwidget/anotherlogin.dart';
 import '../../../../sharedwidget/button.dart';
 import '../../../../sharedwidget/checkRow.dart';
+import '../../../news/presentation/view/news_screen.dart';
 import '../controller/login_states.dart';
 
 class loginscreen extends StatefulWidget {
@@ -35,24 +36,20 @@ class _loginscreenState extends State<loginscreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(state.errorMessage)),
         );
-        setState(() {
-          loadinglogin = false;
-        });
+
       } else if (state is LoginLoadingState) {
-        setState(() {
-          loadinglogin = true;
-        });
+
       } else if (state is LoginSuccessState) {
-        setState(() {
-          loadinglogin = false;
-        });
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return newspage();
+        },));
+
       }
     },
 
-
         builder: (context, state) {
           return ModalProgressHUD(
-            inAsyncCall: loadinglogin,
+            inAsyncCall: state is LoginLoadingState,
             progressIndicator: CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
             ),

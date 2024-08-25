@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 
-
-class newspage extends StatelessWidget {
-  const newspage({super.key});
+class Bookmark extends StatelessWidget {
+  const Bookmark({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+      // backgroundColor: Colors.blue,
     );
   }
 }

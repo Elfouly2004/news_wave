@@ -2,12 +2,14 @@
 
 
 
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../news/newspage.dart';
+import '../../../news/presentation/view/news_screen.dart';
 import 'login_states.dart';
 
 class LoginCubit extends Cubit<LoginStates> {
@@ -68,10 +70,10 @@ class LoginCubit extends Cubit<LoginStates> {
           email: Email.text.trim(),
           password: password.text.trim(),
         );
+
         emit(LoginSuccessState());
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return newspage();
-        },));
+
+
         String? email = Email.text.trim();
         String? pass =password.text.trim();
         if( email.isNotEmpty&&pass.isNotEmpty ){
@@ -80,27 +82,26 @@ class LoginCubit extends Cubit<LoginStates> {
         }
 
 
-      }on FirebaseAuthException catch (e) {
 
-        if (e.code == 'wrong-password') {
-          emit(LoginFailureState(errorMessage: "The password is incorrect."));
-        } else if (e.code == 'user-not-found') {
-          emit(LoginFailureState(errorMessage: "No user found for that email."));
-        } else if (e.code == 'invalid-email') {
-          emit(LoginFailureState(
-              errorMessage: "The email address is not valid."));
-        } else {
-          emit(LoginFailureState(
-              errorMessage: "An unexpected error occurred"));
-          print("${e.code}---------Elfouly");
+      }
+      on FirebaseAuthException catch (e) {
+        if (e.code == 'user-not-found') {
+          emit(LoginFailureState(errorMessage: "user-not-found"));
+        } else if (e.code == 'wrong-password') {
+          emit(LoginFailureState(errorMessage: "wrong-password"));
+        }else{
+          emit(LoginFailureState(errorMessage: "Email or password was wrong"));
         }
+      }on SocketException {
+        emit(LoginFailureState(errorMessage: "Error Auth :  No Internet}"));
+
       } catch (e) {
         emit(LoginFailureState(
-            errorMessage: "Oops, an unexpected error occurred: ${e.toString()}"));
-        print(e);
+            errorMessage: "Oops An Eccurred error ${e.toString()}"));
+        print(e.toString());
       }
-    } else {
-      emit(LoginFailureState(errorMessage: "Check your data"));
+
+
     }
   }
 

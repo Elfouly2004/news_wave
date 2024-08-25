@@ -10,6 +10,8 @@ class AppImages {
   static const google = "assets/images/Icon (2).png";
   static const openeye = "assets/images/Vector (1).png";
   static const closeeye = "assets/images/Vector.png";
+  static const Newswavepic = "assets/images/image 10 (1).png";
+  static const Newswavetxt = "assets/images/NEWS WAVE.png";
 
 
 }
