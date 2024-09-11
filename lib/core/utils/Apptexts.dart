@@ -21,5 +21,7 @@ class AppTexts {
   static const String Phone  = "Phone Number";
   static const String Email  = "Email Address";
   static const String Next  = "Next";
+  static const String setting  = "Settings";
+  static const String profile  = "Profile";
 
 }

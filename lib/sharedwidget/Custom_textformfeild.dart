@@ -17,7 +17,7 @@ final textfeild;
 final TextInputType? keyboardType;
 final Widget? suffixIcon;
 final bool obscureText;
-  final GlobalKey<FormState> formKey;
+  final GlobalKey<FormState> ? formKey;
 final TextEditingController? controller;
 final String? Function(String?)? validator;
   @override

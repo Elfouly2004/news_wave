@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,6 +11,7 @@ import 'package:newsapp/features/news/presentation/view/widgets/author.dart';
 import 'package:newsapp/features/news/presentation/view/widgets/bookmark.dart';
 import 'package:newsapp/features/news/presentation/view/widgets/topic_Screen.dart';
 import 'package:newsapp/features/news/presentation/view/widgets/homebody.dart';
+import 'package:newsapp/features/setting/presentation/view/setting.dart';
 import '../../../Fill Profile/Data/model/fillprofile_model.dart';
 import '../../../Fill Profile/presentation/controller/fillprofile_cubit.dart';
 
@@ -33,10 +35,6 @@ class _newspageState extends State<newspage> {
     Bookmark(),
   ] ;
 
-
-
-
-
   @override
   Widget build(BuildContext context) {
 
@@ -48,50 +46,78 @@ class _newspageState extends State<newspage> {
 
     appBar: PreferredSize(
       preferredSize: Size.fromHeight(220),
-      child: Padding(
-        padding:  EdgeInsets.only(top: 50,left: 20,right: 20,bottom: 10),
-        child: AppBar(
-          toolbarHeight: 80,
+      child:StreamBuilder(
+        stream: FirebaseFirestore.instance.collection('users').snapshots(),
+        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          }
 
-          leading:
-          // Image(image: AssetImage(AppImages.google)),
-          
-          CircleAvatar(
-            radius: 50,
-           backgroundImage: FileImage(File(data!.pic.toString())),
-          ),
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
 
-        centerTitle: true,
-        title: Column(
+          final data = snapshot.data!.docs.last;
 
-          children: [
-            SizedBox(height: 10,),
-            Image(image: AssetImage(AppImages.Newswavepic),height: 32,width:93 ,),
-            SizedBox(height: 10,),
-            Image(image: AssetImage(AppImages.Newswavetxt),height: 24,width: 144,)
-          ],
-        ),
+          return Padding(
+            padding:  EdgeInsets.only(top: 50,left: 20,right: 20,bottom: 10),
+            child: AppBar(
+              toolbarHeight: 80,
+
+              leading: CircleAvatar(
+                radius: 50,
+                backgroundImage: NetworkImage(data['imageurl']),
+              ),
+
+              centerTitle: true,
+              title: Column(
+
+                children: [
+                  SizedBox(height: 10,),
+                  Image(image: AssetImage(AppImages.Newswavepic),height: 32,width:93 ,),
+                  SizedBox(height: 10,),
+                  Image(image: AssetImage(AppImages.Newswavetxt),height: 24,width: 144,)
+                ],
+              ),
+
+                 actions: [
+                   IconButton(
+                       onPressed: () {
+                     Navigator.push(context, MaterialPageRoute(builder: (context) => Setting(),));
+                   }, icon: Icon(Icons.settings,size: 30,))
+                 ],
 
 
-          bottom:PreferredSize(preferredSize: Size.fromHeight(0),
-              child:TextFormField(
-                
-              onTapOutside: (event) {
-                  FocusManager.instance.primaryFocus?.unfocus();
-                },
-              decoration: InputDecoration(
-                hintText: "Search",
-                hintStyle:  TextStyle(color: AppColors.blue,fontSize: 20),
-                prefixIcon: Icon(CupertinoIcons.search,size:30,color: AppColors.blue,),
-              border: OutlineInputBorder(borderSide: BorderSide(color:  AppColors.blue)),
-          focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppColors.blue)),
-           enabledBorder: OutlineInputBorder(borderSide:  BorderSide(color: AppColors.blue),)
-          ),
-              )
-          ),
-          
+
+              bottom:PreferredSize(preferredSize: Size.fromHeight(0),
+                  child:TextFormField(
+
+                    onTapOutside: (event) {
+                      FocusManager.instance.primaryFocus?.unfocus();
+                    },
+                    decoration: InputDecoration(
+                        hintText: "Search",
+                        hintStyle:  TextStyle(color: AppColors.blue,fontSize: 20),
+                        prefixIcon: Icon(CupertinoIcons.search,size:30,color: AppColors.blue,),
+                        border: OutlineInputBorder(borderSide: BorderSide(color:  AppColors.blue)),
+                        focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppColors.blue)),
+                        enabledBorder: OutlineInputBorder(borderSide:  BorderSide(color: AppColors.blue),)
+                    ),
+                  )
+              ),
+
             ),
-      ),),
+          );
+        },
+      ),
+
+
+
+
+
+
+
+    ),
 
 
         bottomNavigationBar: BottomNavigationBar(

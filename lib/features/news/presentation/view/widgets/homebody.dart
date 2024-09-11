@@ -8,14 +8,13 @@ class Homebody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final box = Hive.box<FillprofileModel>('ProfileBox');
-    final person= box.get("Data");
+    // final box = Hive.box<FillprofileModel>('ProfileBox');
+    // final person= box.get("Data");
     return Scaffold(
      body: Column(
        children: [
          
-         Center(child: Text("${person!.Fullname}",style:  TextStyle(fontSize: 20),))
-         
+
        ],
      ), 
       

@@ -1,6 +1,7 @@
 
 
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,9 +12,9 @@ import '../../../Fill Profile/presentation/view/fillprofile.dart';
 class SignupCubit extends Cubit<SignupStates> {
   SignupCubit() :super(SignupInitialState());
 
+String? userid;
 
-
-  final TextEditingController username = TextEditingController();
+  final TextEditingController Email = TextEditingController();
   final TextEditingController Password = TextEditingController();
   final TextEditingController Confirmpassword = TextEditingController();
 
@@ -27,38 +28,9 @@ class SignupCubit extends Cubit<SignupStates> {
   bool Check = false;
   bool conPass = false;
 
-  Validatorname(value) {
-    if (value!.isEmpty || value == null) {
-      return (" 🚫 Invalid Email");
-    } else {
-      return null;
-    }
-  }
-
-  Validatorpass(value) {
-    if (value!.isEmpty || value == null) {
-      return ("🚫 Password error");
-    }
-    else {
-      return null;
-    }
-  }
 
 
-  Validatorconfirmpass(value) {
-    if (value!.isEmpty || value == null) {
-      return ("🚫 write cofirm pass");
-    }
-    else if(Password.text!=Confirmpassword.text){
-      return ("🚫 password not same Confirmpassword");;
-    }
-  }
 
-  Checkbox(v) {
-    Check = !Check;
-    emit(SignupSuccessState());
-
-  }
 
   Signup({required context}) async{
 
@@ -75,23 +47,31 @@ class SignupCubit extends Cubit<SignupStates> {
 
       try {
         final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: username.text.trim(),
+          email: Email.text.trim(),
           password: Password.text.trim(),
         );
 
-        emit(SignupSuccessState());
+      userid=credential.user!.uid;
 
-        Navigator.push(context, MaterialPageRoute(builder: (context) => fillprofile(),));
+        await FirebaseFirestore.instance.collection('users').doc(userid).set({
+          'email': Email.text.trim(),
+          'password': Password.text.trim(),
+          'userId': userid,
+        });
 
-        String? Username = username.text.trim();
+
+        emit(SignupFinishState());
+
+
+
+        String? email = Email.text.trim();
         String? pass =Password.text.trim();
         String? confirmpass =Confirmpassword.text.trim();
 
-        if( Username.isNotEmpty&&pass.isNotEmpty &&confirmpass.isNotEmpty){
-          username.text="";
+        if( email.isNotEmpty&&pass.isNotEmpty &&confirmpass.isNotEmpty){
+          Email.text="";
           Password.text="";
           Confirmpassword.text="";
-
         }
 
 
@@ -124,6 +104,42 @@ class SignupCubit extends Cubit<SignupStates> {
 
 
 
+
+  }
+
+
+
+
+  Validatorname(value) {
+    if (value!.isEmpty || value == null) {
+      return (" 🚫 Invalid Email");
+    } else {
+      return null;
+    }
+  }
+
+  Validatorpass(value) {
+    if (value!.isEmpty || value == null) {
+      return ("🚫 Password error");
+    }
+    else {
+      return null;
+    }
+  }
+
+
+  Validatorconfirmpass(value) {
+    if (value!.isEmpty || value == null) {
+      return ("🚫 write cofirm pass");
+    }
+    else if(Password.text!=Confirmpassword.text){
+      return ("🚫 password not same Confirmpassword");;
+    }
+  }
+
+  Checkbox(v) {
+    Check = !Check;
+    emit(SignupSuccessState());
 
   }
 

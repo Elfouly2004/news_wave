@@ -15,18 +15,20 @@ import '../../../../sharedwidget/checkRow.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:cupertino_icons/cupertino_icons.dart';
 
+import '../../../Fill Profile/presentation/view/fillprofile.dart';
+
 class Signup extends StatefulWidget {
   @override
   State<Signup> createState() => _SignupState();
 }
 
 class _SignupState extends State<Signup> {
-  bool saving = false;
+
 
   @override
   void dispose() {
     super.dispose();
-    BlocProvider.of<SignupCubit>(context).username.dispose();
+    BlocProvider.of<SignupCubit>(context).Email.dispose();
     BlocProvider.of<SignupCubit>(context).Password.dispose();
   }
 
@@ -36,22 +38,14 @@ class _SignupState extends State<Signup> {
       resizeToAvoidBottomInset: false,
       body: BlocConsumer<SignupCubit, SignupStates>(
         listener: (context, state) {
-          if (state is SignupFailureState) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.errorMessage)),
-            );
-            setState(() {
-              saving = false;
-            });
-          } else if (state is SignupLoadingState) {
-            setState(() {
-              saving = true;
-            });
-          } else if (state is SignupSuccessState) {
-            setState(() {
-              saving = false;
-            });
+          if(state is SignupLoadingState){
+
+          }else if(state is SignupFinishState){
+
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => fillprofile(),));
+
           }
+
         },
 
 
@@ -61,7 +55,7 @@ class _SignupState extends State<Signup> {
             progressIndicator: CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
             ),
-            inAsyncCall: saving,
+            inAsyncCall: state is SignupLoadingState,
             child: Custom_Appbar(
               height: MediaQuery.sizeOf(context).height * 0.8,
               widget: Padding(
@@ -82,7 +76,7 @@ class _SignupState extends State<Signup> {
                     SizedBox(height: MediaQuery.sizeOf(context).height * 0.03),
 
                     CustomTextformfeild(
-                      controller: BlocProvider.of<SignupCubit>(context).username,
+                      controller: BlocProvider.of<SignupCubit>(context).Email,
                       formKey: BlocProvider.of<SignupCubit>(context).usernamekey,
                       textfeild: AppTexts.email,
                       keyboardType: TextInputType.emailAddress,
@@ -155,6 +149,8 @@ class _SignupState extends State<Signup> {
                       text: AppTexts.Signup,
                       onTap: () {
                         BlocProvider.of<SignupCubit>(context).Signup(context: context);
+
+
                       },
                     ),
 

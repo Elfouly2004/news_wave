@@ -29,6 +29,7 @@ void main() async{
   runApp(
       MultiBlocProvider(
       providers: [
+
         BlocProvider<SignupCubit>(
           create: (context) => SignupCubit(),
         ),
@@ -55,8 +56,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final box = Hive.box<FillprofileModel>('ProfileBox');
-    final person= box.get("Data");
+    // final box = Hive.box<FillprofileModel>('ProfileBox');
+    // final person= box.get("Data");
 
     BlocProvider.of<FillprofileCubit>(context).getProfile();
     return MaterialApp(
