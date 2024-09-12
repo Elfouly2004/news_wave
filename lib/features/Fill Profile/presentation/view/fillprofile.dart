@@ -28,7 +28,7 @@ class _fillprofileState extends State<fillprofile> {
   @override
   Widget build(BuildContext context) {
 
-    var uid= BlocProvider.of<SignupCubit>(context).userid;
+    // var uid= BlocProvider.of<SignupCubit>(context).userid;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,

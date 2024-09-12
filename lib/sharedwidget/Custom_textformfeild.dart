@@ -55,6 +55,18 @@ final String? Function(String?)? validator;
                   ),
                   keyboardType: keyboardType,
                   decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: AppColors.blue, // لون الـ border عندما يكون الحقل غير مفعل
+                        width: 2.0,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: AppColors.blue, // لون الـ border عندما يكون الحقل مفعل
+                        width: 2.0,
+                      ),
+                    ),
                     suffixIcon: suffixIcon,
                     border: OutlineInputBorder(
 

@@ -65,15 +65,16 @@ class FillprofileCubit extends Cubit<FillprofileStates> {
   }
 
 
-
   Fillproile_Done({context,})async{
 
 
 
     if( key1.currentState!.validate() == true
         && key2.currentState!.validate() == true
-        && key3.currentState!.validate() == true)
-    {
+        && key3.currentState!.validate() == true) {
+
+      emit(FillprofileLoadingState());
+
       try {
 
         String imageUrl = await uploadImageToFirebase(File(myPhoto!.path));
@@ -98,27 +99,23 @@ class FillprofileCubit extends Cubit<FillprofileStates> {
     }
 
 
+  Future<void> fetchUserProfileData(String userId) async {
+    try {
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(userId).get();
 
+      if (userDoc.exists) {
+        var data = userDoc.data() as Map<String, dynamic>;
 
-  // Future<void> savePerson() async {
-  //   final box = Hive.box<FillprofileModel>('ProfileBox');
-  //   final persondata = FillprofileModel(
-  //       pic: myPhoto!.path,
-  //       Fullname: fullname.text,
-  //       Email: Emailaddress.text,
-  //       phonenumber: phonenumber.text
-  //   );
-  //   await box.put("Data",persondata);
-  //
-  // }
+        fullname.text = data['FullName'] ?? '';
+        Emailaddress.text = data['Email'] ?? '';
+        phonenumber.text = data['PhoneNumber'] ?? '';
 
-
-
-
-
-
-
-
+        emit(FillprofileuccessState());
+      }
+    } catch (e) {
+      emit(FillprofileFailureState(errorMessage: e.toString()));
+    }
+  }
 
 
   Validatorname(value) {
@@ -163,6 +160,20 @@ class FillprofileCubit extends Cubit<FillprofileStates> {
 
 
 
+
+
+
+// Future<void> savePerson() async {
+//   final box = Hive.box<FillprofileModel>('ProfileBox');
+//   final persondata = FillprofileModel(
+//       pic: myPhoto!.path,
+//       Fullname: fullname.text,
+//       Email: Emailaddress.text,
+//       phonenumber: phonenumber.text
+//   );
+//   await box.put("Data",persondata);
+//
+// }
 
 
 

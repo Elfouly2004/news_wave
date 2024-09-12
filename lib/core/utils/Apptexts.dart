@@ -23,5 +23,6 @@ class AppTexts {
   static const String Next  = "Next";
   static const String setting  = "Settings";
   static const String profile  = "Profile";
+  static const String editprofile  = "EditProfile";
 
 }

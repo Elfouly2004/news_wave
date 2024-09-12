@@ -57,7 +57,7 @@ class _newspageState extends State<newspage> {
             return Center(child: CircularProgressIndicator());
           }
 
-          final data = snapshot.data!.docs.last;
+          final data = snapshot.data!.docs.first;
 
           return Padding(
             padding:  EdgeInsets.only(top: 50,left: 20,right: 20,bottom: 10),

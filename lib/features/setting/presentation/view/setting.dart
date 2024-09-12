@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:newsapp/core/utils/Appcolors.dart';
 import 'package:newsapp/core/utils/Apptexts.dart';
 import 'package:newsapp/features/login/presentation/view/login.dart';
+import 'package:newsapp/features/news/presentation/view/news_screen.dart';
 import 'package:newsapp/features/setting/presentation/view/profile.dart';
 import 'package:newsapp/features/setting/presentation/view/widgets/share_appbar.dart';
 import 'package:newsapp/features/setting/presentation/view/widgets/share_listile.dart';
@@ -18,7 +19,7 @@ class Setting extends StatelessWidget {
           preferredSize: Size.fromHeight(100),
           child: ShareAppbar(
             
-            leading: IconButton(onPressed: () =>Navigator.pop(context) ,
+            leading: IconButton(onPressed: () =>Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => newspage(),)) ,
                 icon:Icon(CupertinoIcons.xmark,size: 30,)),
             
             title: Text(AppTexts.setting,style: GoogleFonts.acme(),),
@@ -35,7 +36,7 @@ class Setting extends StatelessWidget {
 
             ShareListile(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Profile(),));
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Profile(),));
 
               },
               leading: Icon(CupertinoIcons.lock,size: 30,color: AppColors.blue,),
