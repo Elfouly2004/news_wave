@@ -91,6 +91,23 @@ class FillprofileCubit extends Cubit<FillprofileStates> {
         });
 
         emit(FillprofilFinishState());
+
+
+        String? full = fullname.text.trim();
+        String? email =Emailaddress.text.trim();
+        String? phone =phonenumber.text.trim();
+        String? photo =myPhoto!.path;
+        if( email.isNotEmpty&&full.isNotEmpty &&phone.isNotEmpty&&photo.isNotEmpty){
+          fullname.clear();
+          Emailaddress.clear();
+          phonenumber.clear();
+        myPhoto=null;
+        }
+
+
+
+
+
       } catch (e) {
 
         emit(FillprofileFailureState(errorMessage: e.toString()));

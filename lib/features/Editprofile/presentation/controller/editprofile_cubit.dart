@@ -63,34 +63,37 @@ class EditprofileCubit extends Cubit<EditprofileStates> {
   }
 
 
-  Editproile_Done(context)async{
+  Editproile_Done(context, userId) async {
+    emit(EditprofileLoadingState());
 
+    try {
+      debugPrint("Starting profile update");
 
-      emit(EditprofileLoadingState());
-
-      try {
-
-        String imageUrl = await uploadImageToFirebase(File(EditPhoto!.path));
-
-
-        var userId = BlocProvider.of<SignupCubit>(context).userid.toString();
-
-
-        await FirebaseFirestore.instance.collection('users').doc(userId).update({
-          'FullName': Edit_fullname.text,
-          'Email': Edit_Emailaddress.text,
-          'PhoneNumber': Edit_phonenumber.text,
-          'imageurl': imageUrl,
-        });
-
-        emit(EditprofilFinishState());
-
-
-      } catch (e) {
-
-        emit(EditprofileFailureState(errorMessage: e.toString()));
+      String imageUrl;
+      if (EditPhoto != null) {
+        debugPrint("Uploading new image");
+        imageUrl = await uploadImageToFirebase(File(EditPhoto!.path));
+      } else {
+        debugPrint("Fetching existing image URL");
+        var userDoc = await FirebaseFirestore.instance.collection('users').doc(userId).get();
+        imageUrl = userDoc['imageurl'];
       }
 
+      debugPrint("Updating Firestore with new data");
+      // تحديث البيانات في Firestore
+      await FirebaseFirestore.instance.collection('users').doc(userId).update({
+        'FullName': Edit_fullname.text,
+        'Email': Edit_Emailaddress.text,
+        'PhoneNumber': Edit_phonenumber.text,
+        'imageurl': imageUrl,
+      });
+
+      emit(EditprofilFinishState());
+      debugPrint("Profile update completed");
+    } catch (e) {
+      debugPrint("Error during profile update: $e");
+      emit(EditprofileFailureState(errorMessage: e.toString()));
+    }
   }
 
 
@@ -116,3 +119,4 @@ class EditprofileCubit extends Cubit<EditprofileStates> {
 
 
 }
+

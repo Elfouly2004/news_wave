@@ -47,11 +47,11 @@ import '../../../../core/utils/Apptexts.dart';
                     IconButton(
                         onPressed: () =>
                             Navigator.push(context,
-                                MaterialPageRoute(builder: (context) =>
-                                    Editprofile(
-                                      Email: data["Email"],
-                                    Fullname: data["FullName"],
-                                    phone: data["PhoneNumber"],),)) ,
+                                MaterialPageRoute(
+                                  builder: (context) => Editprofile(
+                                      Email: data["Email"], Fullname: data["FullName"], phone: data["PhoneNumber"],),
+                                )
+                            ) ,
                         icon: Icon(Icons.settings))
                   ],
 

@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,178 +18,169 @@ import '../controller/editprofile_states.dart';
 class Editprofile extends StatefulWidget {
   const Editprofile({super.key, this.Fullname, this.Email, this.phone});
 
-
-  final  Fullname;
-  final  Email;
-  final  phone;
+  final String? Fullname;
+  final String? Email;
+  final String? phone;
 
   @override
   State<Editprofile> createState() => _EditprofileState();
 }
 
 class _EditprofileState extends State<Editprofile> {
-
+  @override
   void initState() {
     super.initState();
-    BlocProvider.of<EditprofileCubit>(context).Edit_fullname.text=widget.Fullname;
-    BlocProvider.of<EditprofileCubit>(context).Edit_Emailaddress.text=widget.Email;
-    BlocProvider.of<EditprofileCubit>(context).Edit_phonenumber.text=widget.phone;
-
+    final cubit = BlocProvider.of<EditprofileCubit>(context);
+    cubit.Edit_fullname.text = widget.Fullname ?? '';
+    cubit.Edit_Emailaddress.text = widget.Email ?? '';
+    cubit.Edit_phonenumber.text = widget.phone ?? '';
   }
 
   @override
   Widget build(BuildContext context) {
-
-
-    return BlocConsumer<EditprofileCubit,EditprofileStates>(
+    return BlocConsumer<EditprofileCubit, EditprofileStates>(
       listener: (context, state) {
-        if(state is EditprofileLoadingState){
-
-        }else if (state is EditprofilFinishState){
-
-          Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => Profile()));
-
+        if (state is EditprofilFinishState) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => Profile()),
+          );
         }
       },
       builder: (context, state) {
-        return  ModalProgressHUD(
-          inAsyncCall: state is EditprofileLoadingState,
-          progressIndicator: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-          ),
-          child: Scaffold(
-              resizeToAvoidBottomInset: false,
+        return StreamBuilder(
+          stream: FirebaseFirestore.instance.collection('users').snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Center(child: CircularProgressIndicator());
+            }
 
-              appBar: PreferredSize(
+
+            final data = snapshot.data!.docs.first;
+            final uid = data.id;
+
+            return ModalProgressHUD(
+              inAsyncCall: state is EditprofileLoadingState,
+              progressIndicator: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+              ),
+              child: Scaffold(
+                resizeToAvoidBottomInset: false,
+                appBar: PreferredSize(
                   preferredSize: Size.fromHeight(100),
                   child: ShareAppbar(
-
-
-                    leading: IconButton(onPressed: () =>Navigator.pop(context) ,
-                        icon:Icon(CupertinoIcons.xmark,size: 25,)),
-
-                    title: Text(AppTexts.editprofile,style: GoogleFonts.acme(),),
-
-
+                    leading: IconButton(
+                      onPressed: () => Navigator.pop(context),
+                      icon: Icon(CupertinoIcons.xmark, size: 25),
+                    ),
+                    title: Text(
+                      AppTexts.editprofile,
+                      style: GoogleFonts.acme(),
+                    ),
                     actions: [
-                      BlocBuilder<EditprofileCubit,EditprofileStates>(
-                        builder: (context, state) {
-                          return  IconButton(
-                              onPressed: () {
-                                BlocProvider.of<EditprofileCubit>(context).Editproile_Done( context);
 
-                              } ,
-                              icon: Icon(CupertinoIcons.checkmark_alt,size: 30,));
-                        },
+                    IconButton(
+                            onPressed: () {
+                              BlocProvider.of<EditprofileCubit>(context)
+                                  .Editproile_Done(context, uid);
+                            },
+                            icon: Icon(CupertinoIcons.checkmark_alt, size: 30),
 
                       )
                     ],
-
-                  )
-              ),
-
-
-              body: StreamBuilder(
-                stream: FirebaseFirestore.instance.collection('users').snapshots(),
-
-
-
-                builder:   (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.hasError) {
-                    return Center(child: Text('Error: ${snapshot.error}'));
-                  }
-
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
-                  }
-
-                  final data = snapshot.data!.docs.first;
-
-                  return Column(
-
+                  ),
+                ),
+                body: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
                     children: [
-
-                      SizedBox(height:MediaQuery.sizeOf(context).height*0.06 ,),
-
-
-
-                      BlocBuilder<EditprofileCubit, EditprofileStates>(builder: (context, state) {
-                        return  Center(
-                          child: Stack(
-                            alignment: AlignmentDirectional.bottomEnd,
-                            children: [
-
-                              Container(
+                      SizedBox(height: MediaQuery.sizeOf(context).height * 0.03),
+                      BlocBuilder<EditprofileCubit, EditprofileStates>(
+                        builder: (context, state) {
+                          return Center(
+                            child: Stack(
+                              alignment: AlignmentDirectional.bottomEnd,
+                              children: [
+                                Container(
                                   height: 140,
                                   width: 140,
                                   decoration: BoxDecoration(
                                     color: AppColors.blue.withOpacity(0.1),
                                     shape: BoxShape.circle,
-                                    border: Border.all(color: AppColors.blue,width: 2),
-
+                                    border: Border.all(
+                                      color: AppColors.blue,
+                                      width: 2,
+                                    ),
                                   ),
-                                  child:
-                                  BlocProvider.of<EditprofileCubit>(context).EditPhoto==null?
-                                  ClipRRect(
-                                      borderRadius: BorderRadius.circular(90),
-                                      child: Image.network(data["imageurl"],fit: BoxFit.cover,)
-                                  ):
-                                  ClipRRect(
-                                      borderRadius: BorderRadius.circular(90),
-                                      child: Image.file(File( BlocProvider.of<EditprofileCubit>(context) .EditPhoto!.path),fit: BoxFit.cover ,)
+                                  child: BlocProvider.of<EditprofileCubit>(context)
+                                      .EditPhoto ==
+                                      null
+                                      ? ClipRRect(
+                                    borderRadius: BorderRadius.circular(90),
+                                    child: Image.network(
+                                      data["imageurl"],
+                                      fit: BoxFit.cover,
+                                    ),
                                   )
-                              ),
-
-                              GestureDetector(
-                                onTap: () {
-
-                                  BlocProvider.of<EditprofileCubit>(context).choosephoto();
-
-                                },
-                                child: Container(
-                                  height: 40,
-                                  width: 40,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: AppColors.camera
-                                  ),
-                                  child: Icon(
-                                    Icons.camera_alt_outlined,
-                                    color: AppColors.white,
+                                      : ClipRRect(
+                                    borderRadius: BorderRadius.circular(90),
+                                    child: Image.file(
+                                      File(
+                                        BlocProvider.of<EditprofileCubit>(
+                                            context)
+                                            .EditPhoto!
+                                            .path,
+                                      ),
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
-                              ),
-
-                            ],
-                          ),
-                        );
-                      },),
-
-
-
-                      SizedBox(height:MediaQuery.sizeOf(context).height*0.05 ,),
-
-                      BlocBuilder<EditprofileCubit,EditprofileStates>(
+                                GestureDetector(
+                                  onTap: () {
+                                    BlocProvider.of<EditprofileCubit>(context)
+                                        .choosephoto();
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    width: 40,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: AppColors.camera,
+                                    ),
+                                    child: Icon(
+                                      Icons.camera_alt_outlined,
+                                      color: AppColors.white,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                      SizedBox(height: MediaQuery.sizeOf(context).height * 0.05),
+                      BlocBuilder<EditprofileCubit, EditprofileStates>(
                         builder: (context, state) {
-                          return  CustomTextformfeild(
-                            controller: BlocProvider.of<EditprofileCubit>(context).Edit_fullname,
-                            formKey:  null,
-                            validator:null,
+                          return CustomTextformfeild(
+                            controller:
+                            BlocProvider.of<EditprofileCubit>(context)
+                                .Edit_fullname,
+                            formKey: null,
+                            validator: null,
                             obscureText: false,
                             suffixIcon: null,
                             keyboardType: TextInputType.name,
                             textfeild: AppTexts.fullname,
                           );
                         },
-
-                      ) ,
-
-                      SizedBox(height:MediaQuery.sizeOf(context).height*0.02 ,),
-
-                      BlocBuilder<EditprofileCubit,EditprofileStates>(
+                      ),
+                      SizedBox(height: MediaQuery.sizeOf(context).height * 0.02),
+                      BlocBuilder<EditprofileCubit, EditprofileStates>(
                         builder: (context, state) {
-                          return    CustomTextformfeild(
-                            controller: BlocProvider.of<EditprofileCubit>(context).Edit_Emailaddress,
+                          return CustomTextformfeild(
+                            controller:
+                            BlocProvider.of<EditprofileCubit>(context)
+                                .Edit_Emailaddress,
                             formKey: null,
                             validator: (p0) => null,
                             obscureText: false,
@@ -200,16 +190,15 @@ class _EditprofileState extends State<Editprofile> {
                           );
                         },
                       ),
-
-
-                      SizedBox(height:MediaQuery.sizeOf(context).height*0.02 ,),
-
-                      BlocBuilder<EditprofileCubit,EditprofileStates>(
+                      SizedBox(height: MediaQuery.sizeOf(context).height * 0.02),
+                      BlocBuilder<EditprofileCubit, EditprofileStates>(
                         builder: (context, state) {
-                          return  CustomTextformfeild(
-                            controller: BlocProvider.of<EditprofileCubit>(context).Edit_phonenumber,
+                          return CustomTextformfeild(
+                            controller:
+                            BlocProvider.of<EditprofileCubit>(context)
+                                .Edit_phonenumber,
                             formKey: null,
-                            validator:(p0) => null,
+                            validator: (p0) => null,
                             obscureText: false,
                             suffixIcon: null,
                             keyboardType: TextInputType.phone,
@@ -217,44 +206,15 @@ class _EditprofileState extends State<Editprofile> {
                           );
                         },
                       ),
-
-
-                      SizedBox(height:MediaQuery.sizeOf(context).height*0.1 ,),
-
-
-
-
+                      SizedBox(height: MediaQuery.sizeOf(context).height * 0.1),
                     ],
-
-                  );
-                },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-              )
-
-
-
-
-
-
-          ),
+                  ),
+                ),
+              ),
+            );
+          },
         );
       },
-
-
     );
   }
 }

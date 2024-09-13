@@ -42,7 +42,10 @@ class Setting extends StatelessWidget {
               leading: Icon(CupertinoIcons.lock,size: 30,color: AppColors.blue,),
                title: Text("Profile",style: TextStyle(fontWeight:FontWeight.bold ),),
                 trailing: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Profile(),));
+
+                    },
                     icon: Icon(Icons.arrow_forward_ios,color: AppColors.blue,)),
             ),
 

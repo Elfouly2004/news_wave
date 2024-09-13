@@ -27,38 +27,9 @@ class LoginCubit extends Cubit<LoginStates> {
 
 
 
-
-  validatorname(value){
-    if(value!.isEmpty||value==null){
-      return ("Invalid Username");
-
-    } else{
-      return null;
-    }  }
-
-  validatorpass(value){
-    if(value!.isEmpty||value==null){
-
-      return("Password error");
-
-    }
-    else{
-      return null;
-
-    }
-  }
-
-  checkbox(v){
-
-    check=!check;
-
-    emit(LoginSuccessState());
-
-  }
-
   Login({required context})async{
 
-       emit(LoginLoadingState());
+    emit(LoginLoadingState());
 
     if(
     Username.currentState!.validate()==true
@@ -107,6 +78,34 @@ class LoginCubit extends Cubit<LoginStates> {
 
 
 
+
+  validatorname(value){
+    if(value!.isEmpty||value==null){
+      return ("Invalid Username");
+
+    } else{
+      return null;
+    }  }
+
+  validatorpass(value){
+    if(value!.isEmpty||value==null){
+
+      return("Password error");
+
+    }
+    else{
+      return null;
+
+    }
+  }
+
+  checkbox(v){
+
+    check=!check;
+
+    emit(LoginSuccessState());
+
+  }
   hidepass(){
 
 

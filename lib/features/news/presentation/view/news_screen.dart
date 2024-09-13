@@ -67,6 +67,7 @@ class _newspageState extends State<newspage> {
               leading: CircleAvatar(
                 radius: 50,
                 backgroundImage: NetworkImage(data['imageurl']),
+                backgroundColor: AppColors.white,
               ),
 
               centerTitle: true,
