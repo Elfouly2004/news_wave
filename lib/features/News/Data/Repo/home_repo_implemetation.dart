@@ -10,11 +10,7 @@ import 'home_repo.dart';
 
 class HomeRepoImplementationFromApi implements HomeRepo {
   @override
-  Future<Either<Failure, List<NewsModel>>> getTopHeadline(
-      {
-        required String category
-      }
-      ) async {
+  Future<Either<Failure, List<NewsModel>>> getTopHeadline({required String category}) async {
 
     List<NewsModel> news = [] ;
 
@@ -32,6 +28,7 @@ class HomeRepoImplementationFromApi implements HomeRepo {
               url: article["url"],
               publishedAt: article["publishedAt"],
               sourceModel: SourceModel(id: article["source"]["id"], name:  article["source"]["name"]));
+
           news.add(newModel);
         }
         return right(news);
@@ -54,11 +51,7 @@ class HomeRepoImplementationFromApi implements HomeRepo {
 
 
   @override
-  Future<Either<Failure, List<NewsModel>>> searchForNews(
-      {
-        required String q
-      }
-      )  async {
+  Future<Either<Failure, List<NewsModel>>> searchForNews({required String q})async {
 
     List<NewsModel> news = [] ;
 

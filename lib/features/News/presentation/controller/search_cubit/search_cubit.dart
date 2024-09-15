@@ -6,11 +6,7 @@ import '../../../Data/Model/News_model.dart';
 import '../../../Data/Repo/home_repo.dart';
 
 class SearchCubit extends Cubit<SearchStates> {
-  SearchCubit(
-      {
-        required this.homeRepo
-      }
-      ) : super(GetSearchInitialState());
+  SearchCubit({required this.homeRepo}) : super(GetSearchInitialState());
 
 
   final HomeRepo  homeRepo;
@@ -27,11 +23,10 @@ class SearchCubit extends Cubit<SearchStates> {
 
     var result  = await homeRepo.searchForNews(q:q,);
     result.fold( ( left) {
+
       print("result is: ${left.message}   ");
 
-      emit(GetSearchFailureState(
-          errorMessage: left.message
-      ));
+      emit(GetSearchFailureState(errorMessage: left.message));
 
     },(right) {
       searchNews = right;

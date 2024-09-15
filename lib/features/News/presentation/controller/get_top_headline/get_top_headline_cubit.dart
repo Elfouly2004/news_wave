@@ -7,11 +7,7 @@ import '../../../Data/Repo/home_repo.dart';
 
 class TopHeadlineCubit extends Cubit<TopHeadlineStates> {
 
-  TopHeadlineCubit(
-      {
-        required this.homeRepo
-      }
-      ) : super(GetTopHeadlineInitialState());
+  TopHeadlineCubit({required this.homeRepo}) : super(GetTopHeadlineInitialState());
 
 
   final HomeRepo  homeRepo;
@@ -20,16 +16,14 @@ class TopHeadlineCubit extends Cubit<TopHeadlineStates> {
 
   List<NewsModel> topHeadlines = [] ;
 
-  Future<void> getTopHeadline(
-      {
-        String category = "technology"
-      }
-      )  async{
+  Future<void> getTopHeadline({String category = "technology"})  async{
+
     print("start get top headline");
+
     emit(GetTopHeadlineLoadingState());
-    var result  = await homeRepo.getTopHeadline(
-        category: category
-    );
+
+    var result  = await homeRepo.getTopHeadline(category: category);
+
     result.fold( ( left) {
       print("result is: ${left.message}   ");
 
