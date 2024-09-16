@@ -14,7 +14,6 @@ import 'features/Editprofile/presentation/controller/editprofile_cubit.dart';
 import 'features/Fill Profile/Data/model/fillprofile_model.dart';
 import 'features/Fill Profile/presentation/controller/fillprofile_cubit.dart';
 import 'package:firebase_core/firebase_core.dart';
-
 import 'features/News/presentation/controller/get_top_headline/get_top_headline_cubit.dart';
 
 
