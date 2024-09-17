@@ -1,13 +1,17 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:newsapp/features/News/presentation/controller/get_top_headline/get_top_headline_states.dart';
+
+
 import '../../../Data/Model/News_model.dart';
 import '../../../Data/Repo/home_repo.dart';
-
-
+import 'get_top_headline_states.dart';
 
 class TopHeadlineCubit extends Cubit<TopHeadlineStates> {
-
-  TopHeadlineCubit({required this.homeRepo}) : super(GetTopHeadlineInitialState());
+  TopHeadlineCubit(
+      {
+        required this.homeRepo
+      }
+      ) : super(GetTopHeadlineInitialState());
 
 
   final HomeRepo  homeRepo;
@@ -16,14 +20,10 @@ class TopHeadlineCubit extends Cubit<TopHeadlineStates> {
 
   List<NewsModel> topHeadlines = [] ;
 
-  Future<void> getTopHeadline({String category = "technology"})  async{
-
+  Future<void> getTopHeadline({String category = "technology"}) async{
     print("start get top headline");
-
     emit(GetTopHeadlineLoadingState());
-
     var result  = await homeRepo.getTopHeadline(category: category);
-
     result.fold( ( left) {
       print("result is: ${left.message}   ");
 

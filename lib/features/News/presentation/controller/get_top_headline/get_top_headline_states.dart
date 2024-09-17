@@ -1,4 +1,3 @@
-
 abstract class TopHeadlineStates{ }
 class GetTopHeadlineInitialState extends TopHeadlineStates { }
 class GetTopHeadlineLoadingState extends TopHeadlineStates { }

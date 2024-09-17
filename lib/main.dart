@@ -55,6 +55,8 @@ void main() async{
           create: (context) => TopHeadlineCubit(homeRepo: HomeRepoImplementationFromApi()),
         ),
 
+
+
       ],
       child:  MyApp()
       ),
