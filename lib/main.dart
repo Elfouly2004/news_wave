@@ -79,7 +79,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'News App',
      debugShowCheckedModeBanner: false,
-      home: newspage(),
+      home: splashscreen(),
     );
   }
 }

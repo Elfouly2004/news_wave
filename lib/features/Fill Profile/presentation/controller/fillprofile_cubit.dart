@@ -53,16 +53,16 @@ class FillprofileCubit extends Cubit<FillprofileStates> {
 
 
 
-  Future<String> uploadImageToFirebase(File imageFile) async {
-
-      final storageRef = FirebaseStorage.instance.ref()
-          .child('profile_images/${DateTime.now().millisecondsSinceEpoch}');
-      UploadTask uploadTask = storageRef.putFile(imageFile);
-      TaskSnapshot snapshot = await uploadTask;
-      String downloadUrl = await snapshot.ref.getDownloadURL();
-      return downloadUrl;
-
-  }
+  // Future<String> uploadImageToFirebase(File imageFile) async {
+  //
+  //     final storageRef = FirebaseStorage.instance.ref()
+  //         .child('profile_images/${DateTime.now().millisecondsSinceEpoch}');
+  //     UploadTask uploadTask = storageRef.putFile(imageFile);
+  //     TaskSnapshot snapshot = await uploadTask;
+  //     String downloadUrl = await snapshot.ref.getDownloadURL();
+  //     return downloadUrl;
+  //
+  // }
 
 
   Fillproile_Done({context,})async{
@@ -77,7 +77,7 @@ class FillprofileCubit extends Cubit<FillprofileStates> {
 
       try {
 
-        String imageUrl = await uploadImageToFirebase(File(myPhoto!.path));
+        // String imageUrl = await uploadImageToFirebase(File(myPhoto!.path));
 
 
         var userId = BlocProvider.of<SignupCubit>(context).userid.toString();
@@ -87,7 +87,7 @@ class FillprofileCubit extends Cubit<FillprofileStates> {
           'FullName': fullname.text.trim(),
           'Email': Emailaddress.text.trim(),
           'PhoneNumber': phonenumber.text.trim(),
-          'imageurl': imageUrl,
+          // 'imageurl': '',
         });
 
         emit(FillprofilFinishState());
@@ -177,7 +177,37 @@ class FillprofileCubit extends Cubit<FillprofileStates> {
 
 
 
+// service cloud.firestore {
+//   match /databases/{database}/documents {
+//     match /{document=**} {
+//       allow read, write: if true;
+//     }
+//   }
+// }
 
+
+//rules_version = '2';
+//
+// // Craft rules based on data in your Firestore database
+// // allow write: if firestore.get(
+// //    /databases/(default)/documents/users/$(request.auth.uid)).data.isAdmin;
+// service firebase.storage {
+//   match /b/{bucket}/o {
+//
+//     // This rule allows anyone with your Storage bucket reference to view, edit,
+//     // and delete all data in your Storage bucket. It is useful for getting
+//     // started, but it is configured to expire after 30 days because it
+//     // leaves your app open to attackers. At that time, all client
+//     // requests to your Storage bucket will be denied.
+//     //
+//     // Make sure to write security rules for your app before that time, or else
+//     // all client requests to your Storage bucket will be denied until you Update
+//     // your rules
+//     match /{allPaths=**} {
+//       allow read, write: if request.time < timestamp.date(2024, 9, 26);
+//     }
+//   }
+// }
 
 
 // Future<void> savePerson() async {

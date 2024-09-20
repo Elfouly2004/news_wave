@@ -17,7 +17,10 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -25,9 +28,15 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
-        return windows;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for windows - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -40,47 +49,20 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyD0ZUxMl7DTRQK--nzwjxehz6qZuTqNarw',
-    appId: '1:284674831094:web:44fee14e202031043a32d7',
-    messagingSenderId: '284674831094',
-    projectId: 'news-world-elfoly',
-    authDomain: 'news-world-elfoly.firebaseapp.com',
-    storageBucket: 'news-world-elfoly.appspot.com',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDpuubi6xyV5MCmO2zcUIbrn3nZHUzXkRg',
-    appId: '1:331072748748:android:f8799bf9c0c31f4565d669',
-    messagingSenderId: '331072748748',
-    projectId: 'news-wave-25595',
-    storageBucket: 'news-wave-25595.appspot.com',
+    apiKey: 'AIzaSyAfhkv6YS9YXPUcIz2ee6YhEVJ8rh_p2oQ',
+    appId: '1:70293956283:android:34f3cfa0cf13694ef4eb9e',
+    messagingSenderId: '70293956283',
+    projectId: 'newsapp-2d3aa',
+    storageBucket: 'newsapp-2d3aa.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDUS1wNOaUS4uJEwH6kqcapzyL28OFKWBw',
-    appId: '1:331072748748:ios:e63d4f71591eceb265d669',
-    messagingSenderId: '331072748748',
-    projectId: 'news-wave-25595',
-    storageBucket: 'news-wave-25595.appspot.com',
+    apiKey: 'AIzaSyBubmKHvYSKyDjGx-cYICafSurrulDvQM8',
+    appId: '1:70293956283:ios:20ae93f0bc430d94f4eb9e',
+    messagingSenderId: '70293956283',
+    projectId: 'newsapp-2d3aa',
+    storageBucket: 'newsapp-2d3aa.appspot.com',
     iosBundleId: 'com.example.newsapp',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBzX8HERm3VOevK7MKP9EL2fz9ACv6faWM',
-    appId: '1:284674831094:ios:c203e815c4cc9b983a32d7',
-    messagingSenderId: '284674831094',
-    projectId: 'news-world-elfoly',
-    storageBucket: 'news-world-elfoly.appspot.com',
-    iosBundleId: 'com.example.newsapp',
-  );
-
-  static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyD0ZUxMl7DTRQK--nzwjxehz6qZuTqNarw',
-    appId: '1:284674831094:web:6d2c51771d1c48593a32d7',
-    messagingSenderId: '284674831094',
-    projectId: 'news-world-elfoly',
-    authDomain: 'news-world-elfoly.firebaseapp.com',
-    storageBucket: 'news-world-elfoly.appspot.com',
   );
 }
