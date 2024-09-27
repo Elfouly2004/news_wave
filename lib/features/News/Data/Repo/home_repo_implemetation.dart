@@ -10,6 +10,7 @@ import 'home_repo.dart';
 
 class HomeRepoImplementationFromApi implements HomeRepo {
   @override
+
   Future<Either<Failure, List<NewsModel>>> getTopHeadline({required String category}) async {
 
     List<NewsModel> news = [] ;
@@ -19,6 +20,7 @@ class HomeRepoImplementationFromApi implements HomeRepo {
           "${EndPoints.baseUrl}${EndPoints.getTopHeadlineEndpoint}?apiKey=${EndPoints.apiKey}&category=$category"));
 
       if(response.statusCode == 200) {
+
         for (var article in jsonDecode(response.body)["articles"]) {
           NewsModel newModel = NewsModel(
               title: article["title"],

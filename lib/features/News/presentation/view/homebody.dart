@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:newsapp/core/utils/Appcolors.dart';
-
 import '../../../Fill Profile/Data/model/fillprofile_model.dart';
 import '../../Data/Model/News_model.dart';
 import '../controller/get_top_headline/get_top_headline_cubit.dart';
@@ -23,7 +22,6 @@ class _Homebody_NewsState extends State<Homebody_News> {
   @override
 
   void initState() {
-  
     super.initState();
     BlocProvider.of<TopHeadlineCubit>(context).getTopHeadline(
         category: "technology"
@@ -41,7 +39,8 @@ class _Homebody_NewsState extends State<Homebody_News> {
     return  RefreshIndicator(
       color: AppColors.blue,
       onRefresh: ()async{
-        BlocProvider.of<TopHeadlineCubit>(context).getTopHeadline(category: "technology");
+        BlocProvider.of<TopHeadlineCubit>(context).getTopHeadline(
+            category: "technology");
       },
 
       child:  Column(
@@ -78,9 +77,7 @@ class _Homebody_NewsState extends State<Homebody_News> {
                     } , child: Text("Try Again"))
                   ],
                 ),
-              ): ListViewForNews(news: BlocProvider
-                  .of<TopHeadlineCubit>(context)
-                  .topHeadlines,));
+              ): ListViewForNews(news: BlocProvider.of<TopHeadlineCubit>(context).topHeadlines,));
 
 
             },

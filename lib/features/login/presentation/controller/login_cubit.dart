@@ -103,7 +103,7 @@ class LoginCubit extends Cubit<LoginStates> {
 
     check=!check;
 
-    emit(LoginSuccessState());
+    emit(LogincheckboxState());
 
   }
   hidepass(){

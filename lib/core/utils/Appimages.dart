@@ -12,6 +12,11 @@ class AppImages {
   static const closeeye = "assets/images/Vector.png";
   static const Newswavepic = "assets/images/image 10 (1).png";
   static const Newswavetxt = "assets/images/NEWS WAVE.png";
+  static const General = "assets/images/image 30.png";
+  static const sience = "assets/images/image 29.png";
+  static const business = "assets/images/image 28.png";
+  static const technology = "assets/images/image 27.png";
+  static const Sports = "assets/images/image.png";
 
 
 }

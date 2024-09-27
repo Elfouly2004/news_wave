@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,10 +9,10 @@ import 'package:newsapp/core/utils/Appimages.dart';
 import 'package:newsapp/features/News/presentation/view/homebody.dart';
 import 'package:newsapp/features/news/presentation/view/widgets/author.dart';
 import 'package:newsapp/features/news/presentation/view/widgets/bookmark.dart';
-import 'package:newsapp/features/news/presentation/view/widgets/topic_Screen.dart';
 import 'package:newsapp/sharedwidget/appbar_home.dart';
 import '../../../Fill Profile/Data/model/fillprofile_model.dart';
 import '../../../Fill Profile/presentation/controller/fillprofile_cubit.dart';
+import '../../../Topic/presentation/view/topic_Screen.dart';
 
 
 class newspage extends StatefulWidget {
@@ -47,6 +46,7 @@ class _newspageState extends State<newspage> {
           snapshot) {
 
         return   Scaffold(
+          backgroundColor: AppColors.white,
 
             appBar: PreferredSize(
                 preferredSize: Size.fromHeight(220),

@@ -1,7 +1,9 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:newsapp/core/utils/Appcolors.dart';
 
 import '../../Data/Model/News_model.dart';
 
@@ -17,37 +19,65 @@ class NewWidget extends StatefulWidget {
 class _NewWidgetState extends State<NewWidget> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-
-      children: [
-
-        CachedNetworkImage(
-          imageUrl: widget.newModel.urlToImage??"",
-          placeholder: (context, url) => const CircularProgressIndicator(),
-          errorWidget: (context, url, error) => Icon(Icons.error),
-        ),
-        Text(widget.newModel.sourceModel?.name??""),
-
-        Text(widget.newModel.title??"",
-
-          maxLines: 1 ,   overflow:
-          TextOverflow.ellipsis, ),
-
-        Text(widget.newModel.desc??"",
-          maxLines: 2,
-          overflow:
-          TextOverflow.ellipsis,
-        ),
-
-        Row(
+    return Card(
+      color: Colors. grey.shade50,
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(widget.newModel.sourceModel?.name??""),
-            Icon(Icons.date_range),
-            Text(convertDate(widget.newModel.publishedAt))
-          ],
-        )
 
-      ],
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: CachedNetworkImage(
+                imageUrl: widget.newModel.urlToImage??"",
+                placeholder: (context, url) => const CircularProgressIndicator(),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+              
+              
+              ),
+            ),
+
+            Text(widget.newModel.sourceModel?.name??""),
+
+            RichText(
+                maxLines: 2 ,overflow: TextOverflow.ellipsis,
+                text: TextSpan(
+                    text: "${widget.newModel.sourceModel?.name} :" ??"",
+                    style: TextStyle(color: AppColors.black, fontWeight:FontWeight.bold),
+                    children: [
+                      TextSpan(text:widget.newModel.title??"",
+                          style: TextStyle(color: Colors.black54,))
+
+                    ]
+                )),
+
+
+             Row(
+               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+               children: [
+                 Row(
+                   children: [
+
+                     Text(widget.newModel.sourceModel?.name??""),
+                     SizedBox(width: 10,),
+                     Icon(CupertinoIcons.clock ,size: 15,),
+                     Text(convertDate(widget.newModel.publishedAt))
+
+
+                   ],
+                 ),
+
+                 IconButton(onPressed: () {
+                  
+                }, icon: Icon(CupertinoIcons.bookmark))
+                 
+             ],
+             ),
+
+          ],
+        ),
+      ),
     );
   }
 
@@ -56,8 +86,11 @@ class _NewWidgetState extends State<NewWidget> {
 
     DateTime dateTime = DateTime.parse(dateString);
 
-    String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(dateTime);
+    // String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(dateTime);
     // Output: 2024-09-12 – 07:05
+
+    String formattedDate = DateFormat('kk:mm').format(dateTime);
+
 
     return formattedDate;
   }

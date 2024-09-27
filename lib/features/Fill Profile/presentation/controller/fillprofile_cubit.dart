@@ -53,45 +53,64 @@ class FillprofileCubit extends Cubit<FillprofileStates> {
 
 
 
-  // Future<String> uploadImageToFirebase(File imageFile) async {
-  //
-  //     final storageRef = FirebaseStorage.instance.ref()
-  //         .child('profile_images/${DateTime.now().millisecondsSinceEpoch}');
-  //     UploadTask uploadTask = storageRef.putFile(imageFile);
-  //     TaskSnapshot snapshot = await uploadTask;
-  //     String downloadUrl = await snapshot.ref.getDownloadURL();
-  //     return downloadUrl;
-  //
-  // }
+  Future<String> uploadImageToFirebase(File imageFile) async {
+
+    // Check if the file exists
+    if (!imageFile.existsSync()) {
+      throw Exception("File does not exist: ${imageFile.path}");
+    }
+
+    // Reference for Firebase Storage
+    final storageRef = FirebaseStorage.instance
+        .ref()
+        .child('profile_images/${DateTime.now().millisecondsSinceEpoch}');
+
+    // Upload the file to Firebase Storage
+    UploadTask uploadTask = storageRef.putFile(imageFile);
+    TaskSnapshot snapshot = await uploadTask;
+
+    // Retrieve the download URL for the uploaded image
+    String downloadUrl = await snapshot.ref.getDownloadURL();
+    print('Image uploaded successfully. URL: $downloadUrl');
+    return downloadUrl;
+
+  }
 
 
-  Fillproile_Done({context,})async{
-
-
-
-    if( key1.currentState!.validate() == true
-        && key2.currentState!.validate() == true
-        && key3.currentState!.validate() == true) {
+  Fillproile_Done({ context}) async {
+    if (key1.currentState!.validate() &&
+        key2.currentState!.validate() &&
+        key3.currentState!.validate()) {
 
       emit(FillprofileLoadingState());
 
       try {
+        // Ensure that an image is selected
+        if (myPhoto == null) {
+          emit(FillprofileFailureState(errorMessage: "No image selected"));
+          return;
+        }
 
-        // String imageUrl = await uploadImageToFirebase(File(myPhoto!.path));
 
+        String imageUrl = await uploadImageToFirebase(File(myPhoto!.path));
+
+        // If the image URL is empty, stop the process
+        if (imageUrl.isEmpty) {
+          emit(FillprofileFailureState(errorMessage: "Image upload failed"));
+          return;
+        }
 
         var userId = BlocProvider.of<SignupCubit>(context).userid.toString();
 
 
         await FirebaseFirestore.instance.collection('users').doc(userId).update({
+          'imageurl': imageUrl,
           'FullName': fullname.text.trim(),
           'Email': Emailaddress.text.trim(),
           'PhoneNumber': phonenumber.text.trim(),
-          // 'imageurl': '',
         });
 
         emit(FillprofilFinishState());
-
 
         String? full = fullname.text.trim();
         String? email =Emailaddress.text.trim();
@@ -101,19 +120,20 @@ class FillprofileCubit extends Cubit<FillprofileStates> {
           fullname.clear();
           Emailaddress.clear();
           phonenumber.clear();
-        myPhoto=null;
+          myPhoto=null;
         }
-
-
-
-
-
+        // Clear form fields
+        fullname.clear();
+        Emailaddress.clear();
+        phonenumber.clear();
+        myPhoto = null;
       } catch (e) {
-
+        print('Error updating Firestore: $e');
         emit(FillprofileFailureState(errorMessage: e.toString()));
       }
     }
-    }
+  }
+
 
 
   Future<void> fetchUserProfileData(String userId) async {
