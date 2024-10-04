@@ -1,23 +1,30 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:newsapp/features/News/presentation/controller/search_cubit/search_cubit.dart';
 
 import '../core/utils/Appcolors.dart';
 import '../core/utils/Appimages.dart';
 import '../features/setting/presentation/view/setting.dart';
 import 'Search.dart';
 
-class AppbarHome extends StatelessWidget {
+class AppbarHome extends StatefulWidget {
   const AppbarHome({super.key});
 
   @override
+  State<AppbarHome> createState() => _AppbarHomeState();
+}
+
+class _AppbarHomeState extends State<AppbarHome> {
+  @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 20),
+      padding: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 20),
       child: AppBar(
         elevation: 0,
         backgroundColor: AppColors.white,
-        toolbarHeight: 100,
+        toolbarHeight: 120,
         leading: FutureBuilder(
           future: FirebaseFirestore.instance.collection('users').get(),
           builder: (context, snapshot) {
@@ -68,9 +75,10 @@ class AppbarHome extends StatelessWidget {
             icon: Icon(Icons.settings, size: 30),
           )
         ],
-        bottom: PreferredSize(
-            preferredSize: Size.fromHeight(0),
-            child: Search_feild())
+        // bottom: PreferredSize(
+        //     preferredSize: Size.fromHeight(0),
+        //     child:
+        // )
       ),
     );
   }

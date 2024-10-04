@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:newsapp/core/utils/Appcolors.dart';
 import 'package:newsapp/core/utils/Apptexts.dart';
 import 'package:newsapp/features/login/presentation/view/login.dart';
-import 'package:newsapp/features/news/presentation/view/news_screen.dart';
+import 'package:newsapp/features/news/presentation/view/home_screen.dart';
 import 'package:newsapp/features/setting/presentation/view/profile.dart';
 import 'package:newsapp/features/setting/presentation/view/widgets/share_appbar.dart';
 import 'package:newsapp/features/setting/presentation/view/widgets/share_listile.dart';

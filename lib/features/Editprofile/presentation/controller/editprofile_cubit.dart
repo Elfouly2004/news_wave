@@ -12,7 +12,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:newsapp/features/Fill%20Profile/presentation/controller/fillprofile_states.dart';
 import 'package:newsapp/features/signup/presentation/controller/signup_cubit.dart';
 import '../../../Fill Profile/presentation/controller/fillprofile_cubit.dart';
-import '../../../news/presentation/view/news_screen.dart';
+import '../../../news/presentation/view/home_screen.dart';
 import '../../../setting/presentation/view/profile.dart';
 import 'editprofile_states.dart';
 class EditprofileCubit extends Cubit<EditprofileStates> {

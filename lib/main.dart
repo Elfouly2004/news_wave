@@ -7,10 +7,11 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:newsapp/features/Bookmark/presentation/controller/book_mark_cubit.dart';
 import 'package:newsapp/features/Fill%20Profile/presentation/view/fillprofile.dart';
 import 'package:newsapp/features/News/Data/Repo/home_repo_implemetation.dart';
+import 'package:newsapp/features/News/presentation/controller/search_cubit/search_cubit.dart';
 import 'package:newsapp/features/Topic/presentation/controller/categories_cubit.dart';
 import 'package:newsapp/features/login/presentation/controller/login_cubit.dart';
 import 'package:newsapp/features/login/presentation/view/login.dart';
-import 'package:newsapp/features/news/presentation/view/news_screen.dart';
+import 'package:newsapp/features/news/presentation/view/home_screen.dart';
 import 'package:newsapp/features/signup/presentation/controller/signup_cubit.dart';
 import 'package:newsapp/features/splashscreen/splashscreen.dart';
 import 'package:newsapp/firebase_options.dart';
@@ -63,6 +64,10 @@ void main() async{
 
         BlocProvider<BookMarkCubit>(
           create: (context) => BookMarkCubit(),
+        ),
+
+        BlocProvider<SearchCubit>(
+          create: (context) => SearchCubit(homeRepo: HomeRepoImplementationFromApi()),
         ),
 
 

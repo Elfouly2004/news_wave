@@ -6,7 +6,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:newsapp/core/utils/Appcolors.dart';
 import 'package:newsapp/core/utils/Apptexts.dart';
 import 'package:newsapp/features/Fill%20Profile/presentation/controller/fillprofile_states.dart';
-import 'package:newsapp/features/news/presentation/view/news_screen.dart';
+import 'package:newsapp/features/news/presentation/view/home_screen.dart';
 
 
 import '../../../../sharedwidget/Custom_textformfeild.dart';

@@ -6,11 +6,7 @@ import '../../../Data/Model/News_model.dart';
 import '../../../Data/Repo/home_repo.dart';
 
 class SearchCubit extends Cubit<SearchStates> {
-  SearchCubit(
-      {
-        required this.homeRepo
-      }
-      ) : super(GetSearchInitialState());
+  SearchCubit({required this.homeRepo}) : super(GetSearchInitialState());
 
 
   final HomeRepo  homeRepo;

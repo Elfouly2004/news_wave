@@ -11,7 +11,7 @@ import '../../../../sharedwidget/Custom_textformfeild.dart';
 import '../../../../sharedwidget/anotherlogin.dart';
 import '../../../../sharedwidget/button.dart';
 import '../../../../sharedwidget/checkRow.dart';
-import '../../../news/presentation/view/news_screen.dart';
+import '../../../news/presentation/view/home_screen.dart';
 import '../controller/login_states.dart';
 
 class loginscreen extends StatefulWidget {

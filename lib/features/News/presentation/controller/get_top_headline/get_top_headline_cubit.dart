@@ -11,8 +11,10 @@ class TopHeadlineCubit extends Cubit<TopHeadlineStates> {
 
   final HomeRepo  homeRepo;
   List<NewsModel> topHeadlines = [] ;
+  Map<int,List<NewsModel>> mapfornews={};
 
-  Future<void> getTopHeadline({String category = "technology"}) async{
+  Future<void> getTopHeadline({String category = "technology",    int index=0}) async{
+
 
     print("start get top headline");
 
@@ -28,6 +30,9 @@ class TopHeadlineCubit extends Cubit<TopHeadlineStates> {
 
     },(right) {
       topHeadlines = right;
+      mapfornews.addAll({
+        index:topHeadlines
+      });
 
       print("result is: $topHeadlines   ");
       emit(GetTopHeadlineSuccessState());

@@ -5,13 +5,14 @@ import 'package:flutter/material.dart';
 import '../core/utils/Appcolors.dart';
 
 class Search_feild extends StatelessWidget {
-  const Search_feild({super.key});
-
+  const Search_feild({super.key, this.onChanged});
+final void Function(String)? onChanged;
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(10),
       child: TextFormField(
+        onChanged:onChanged ,
         onTapOutside: (event) {
           FocusManager.instance.primaryFocus?.unfocus();
         },

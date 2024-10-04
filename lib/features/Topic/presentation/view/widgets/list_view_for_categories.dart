@@ -45,7 +45,8 @@ class CategoryWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         // Fetch news for the selected category
-        BlocProvider.of<TopHeadlineCubit>(context).getTopHeadline(category: categoryModel.name);
+        BlocProvider.of<TopHeadlineCubit>(context).
+        getTopHeadline(category: categoryModel.name,index: index);
 
         // Navigate to the GetnewsCategories page
         Navigator.push(context,
