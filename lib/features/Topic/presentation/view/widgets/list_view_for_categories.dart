@@ -5,6 +5,7 @@ import 'package:newsapp/core/utils/Appimages.dart';
 import 'package:newsapp/features/Topic/presentation/view/widgets/getnews_categories.dart';
 
 import '../../../../../core/utils/Appcolors.dart';
+import '../../../../Bookmark/presentation/controller/book_mark_cubit.dart';
 import '../../../../News/presentation/controller/get_top_headline/get_top_headline_cubit.dart';
 import '../../../Data/category_model.dart';
 import '../../controller/categories_cubit.dart';
@@ -46,7 +47,12 @@ class CategoryWidget extends StatelessWidget {
       onTap: () {
         // Fetch news for the selected category
         BlocProvider.of<TopHeadlineCubit>(context).
-        getTopHeadline(category: categoryModel.name,index: index);
+        getTopHeadline(
+            category: categoryModel.name,
+          index: index,
+            bookmarksList: BlocProvider.of<BookMarkCubit>(context).bookMarks,
+
+        );
 
         // Navigate to the GetnewsCategories page
         Navigator.push(context,

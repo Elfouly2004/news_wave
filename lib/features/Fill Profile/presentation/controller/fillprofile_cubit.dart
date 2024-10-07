@@ -1,5 +1,6 @@
 
 
+
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,13 +9,10 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:newsapp/features/Fill%20Profile/presentation/controller/fillprofile_states.dart';
-import 'package:newsapp/features/signup/presentation/controller/signup_cubit.dart';
 
-import '../../../news/presentation/view/home_screen.dart';
-import '../../Data/model/fillprofile_model.dart';
+import '../../../signup/presentation/controller/signup_cubit.dart';
+import 'fillprofile_states.dart';
 class FillprofileCubit extends Cubit<FillprofileStates> {
   FillprofileCubit() :super(FillprofileInitialState());
 
@@ -52,7 +50,6 @@ class FillprofileCubit extends Cubit<FillprofileStates> {
   }
 
 
-
   Future<String> uploadImageToFirebase(File imageFile) async {
 
     // Check if the file exists
@@ -75,6 +72,7 @@ class FillprofileCubit extends Cubit<FillprofileStates> {
     return downloadUrl;
 
   }
+
 
 
   Fillproile_Done({ context}) async {
@@ -168,8 +166,8 @@ class FillprofileCubit extends Cubit<FillprofileStates> {
 
   ValidatorEmail(value) {
 
-  if (value!.isEmpty || value == null) {
-    emit(FillprofileuccessState());
+    if (value!.isEmpty || value == null) {
+      emit(FillprofileuccessState());
       return ("🚫 write your Email");
     }
     else {
@@ -183,51 +181,21 @@ class FillprofileCubit extends Cubit<FillprofileStates> {
       emit(FillprofileuccessState());
       return ("🚫 Write Phone Number");
     }
-      return null;;
+    return null;;
   }
 
 
- FillprofileModel? getProfile() {
-      var box = Hive.box<FillprofileModel>("ProfileBox");
-      return box.get("User");
-
-
-    }
-
-
-
-
-// service cloud.firestore {
-//   match /databases/{database}/documents {
-//     match /{document=**} {
-//       allow read, write: if true;
-//     }
-//   }
+// FillprofileModel? getProfile() {
+//   var box = Hive.box<FillprofileModel>("ProfileBox");
+//   return box.get("User");
+//
+//
 // }
 
 
-//rules_version = '2';
-//
-// // Craft rules based on data in your Firestore database
-// // allow write: if firestore.get(
-// //    /databases/(default)/documents/users/$(request.auth.uid)).data.isAdmin;
-// service firebase.storage {
-//   match /b/{bucket}/o {
-//
-//     // This rule allows anyone with your Storage bucket reference to view, edit,
-//     // and delete all data in your Storage bucket. It is useful for getting
-//     // started, but it is configured to expire after 30 days because it
-//     // leaves your app open to attackers. At that time, all client
-//     // requests to your Storage bucket will be denied.
-//     //
-//     // Make sure to write security rules for your app before that time, or else
-//     // all client requests to your Storage bucket will be denied until you Update
-//     // your rules
-//     match /{allPaths=**} {
-//       allow read, write: if request.time < timestamp.date(2024, 9, 26);
-//     }
-//   }
-// }
+
+
+
 
 
 // Future<void> savePerson() async {

@@ -166,7 +166,7 @@ class _SignupState extends State<Signup> {
                     ),
 
 
-                    SizedBox(height: MediaQuery.sizeOf(context).height * 0.02),
+                    SizedBox(height: MediaQuery.sizeOf(context).height * 0.01),
 
 
                     anotherlogin(),

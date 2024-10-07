@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,6 +11,10 @@ class BookMarksScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var bookMarkCubit = BlocProvider.of<BookMarkCubit>(context);
+
+    // استرجاع العلامات المرجعية عند بناء الشاشة
+    bookMarkCubit.getBookmarks();
+
     return BlocBuilder<BookMarkCubit, BookMarkStates>(
       builder: (context, state) {
         return ListViewForNews(
@@ -21,15 +23,4 @@ class BookMarksScreen extends StatelessWidget {
       },
     );
   }
-
 }
-
-
-// {
-//   "title" :"ziad" ,
-// "name": "ziad",
-// }
-// {
-// "title" :"ziad" ,
-// "name": "ziad",
-// }

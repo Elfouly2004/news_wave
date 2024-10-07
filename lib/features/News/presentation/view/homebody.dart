@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:newsapp/core/utils/Appcolors.dart';
+import 'package:newsapp/features/Bookmark/presentation/controller/book_mark_cubit.dart';
 import 'package:newsapp/features/News/presentation/view/widgets/SearchScreen.dart';
 import 'package:newsapp/features/Topic/presentation/controller/categories_cubit.dart';
 import '../../../../sharedwidget/Search.dart';
@@ -32,6 +33,7 @@ class _Homebody_NewsState extends State<Homebody_News> {
     super.initState();
     BlocProvider.of<TopHeadlineCubit>(context).getTopHeadline(
         category: "technology",
+      bookmarksList: BlocProvider.of<BookMarkCubit>(context).bookMarks,
       index: 0
     );
   }
@@ -42,7 +44,9 @@ class _Homebody_NewsState extends State<Homebody_News> {
       color: AppColors.blue,
       onRefresh: () async {
         BlocProvider.of<TopHeadlineCubit>(context).getTopHeadline(
-            category: "technology",
+          bookmarksList: BlocProvider.of<BookMarkCubit>(context).bookMarks,
+
+          category: "technology",
                 index: 0,
         );
       },
@@ -117,7 +121,11 @@ class _Homebody_NewsState extends State<Homebody_News> {
                           Text(state.errorMessage),
                           TextButton(
                             onPressed: () {
-                              BlocProvider.of<TopHeadlineCubit>(context).getTopHeadline(category: "technology",index: 0);
+                              BlocProvider.of<TopHeadlineCubit>(context).getTopHeadline(
+                                  category: "technology",
+                                  bookmarksList: BlocProvider.of<BookMarkCubit>(context).bookMarks,
+
+                                  index: 0);
                             },
                             child: const Text("Try Again"),
                           ),

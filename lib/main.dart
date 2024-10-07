@@ -6,6 +6,7 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:newsapp/features/Bookmark/presentation/controller/book_mark_cubit.dart';
 import 'package:newsapp/features/Fill%20Profile/presentation/view/fillprofile.dart';
+import 'package:newsapp/features/News/Data/Model/News_model.dart';
 import 'package:newsapp/features/News/Data/Repo/home_repo_implemetation.dart';
 import 'package:newsapp/features/News/presentation/controller/search_cubit/search_cubit.dart';
 import 'package:newsapp/features/Topic/presentation/controller/categories_cubit.dart';
@@ -27,13 +28,14 @@ void main() async{
 
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
-  Hive.registerAdapter((FillprofileModelAdapter()));
-  await Hive.openBox<FillprofileModel>("ProfileBox");
+  Hive.registerAdapter((NewsModelAdapter()));
+  await Hive.openBox<NewsModel>("Saved_newsBox");
 
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
 
   runApp(
       MultiBlocProvider(
@@ -87,10 +89,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final box = Hive.box<FillprofileModel>('ProfileBox');
-    // final person= box.get("Data");
-
-    BlocProvider.of<FillprofileCubit>(context).getProfile();
+    // final box = Hive.box<NewsModel>('Saved_newsBox');
+    // final person= box.get("bookmark_key");
+    // BlocProvider.of<BookMarkCubit>(context).getBookmarks();
     return MaterialApp(
       title: 'News App',
      debugShowCheckedModeBanner: false,

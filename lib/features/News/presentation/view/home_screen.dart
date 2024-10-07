@@ -29,7 +29,7 @@ class _newspageState extends State<newspage> {
   List<Widget> screens  = [
     Homebody_News(),
     TopicScreen(),
-    Author(),
+    // Author(),
     BookMarksScreen(),
   ] ;
 
@@ -74,9 +74,9 @@ class _newspageState extends State<newspage> {
                 label: 'Topic',
                 icon: Icon(CupertinoIcons.list_bullet_indent),),
 
-              BottomNavigationBarItem(
-                label: 'Author',
-                icon: Icon(CupertinoIcons.building_2_fill),),
+              // BottomNavigationBarItem(
+              //   label: 'Author',
+              //   icon: Icon(CupertinoIcons.building_2_fill),),
 
               BottomNavigationBarItem(
                 label: 'Bookmark',
