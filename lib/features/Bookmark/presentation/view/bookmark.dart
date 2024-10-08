@@ -12,7 +12,7 @@ class BookMarksScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var bookMarkCubit = BlocProvider.of<BookMarkCubit>(context);
 
-    // استرجاع العلامات المرجعية عند بناء الشاشة
+    // Retrieve bookmarks when the screen is built
     bookMarkCubit.getBookmarks();
 
     return BlocBuilder<BookMarkCubit, BookMarkStates>(
@@ -24,3 +24,4 @@ class BookMarksScreen extends StatelessWidget {
     );
   }
 }
+

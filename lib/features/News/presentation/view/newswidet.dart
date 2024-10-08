@@ -38,8 +38,8 @@ class _NewWidgetState extends State<NewWidget> {
                   borderRadius: BorderRadius.circular(10),
                   child: CachedNetworkImage(
                     imageUrl: widget.newModel.urlToImage??"",
-                    placeholder: (context, url) => Center(child: const CircularProgressIndicator()),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
+                    placeholder: (context, url) => Center(child: const CircularProgressIndicator(color:AppColors.blue,)),
+                    errorWidget: (context, url, error) => Center(child: Icon(Icons.error)),
 
 
                   ),
@@ -78,7 +78,7 @@ class _NewWidgetState extends State<NewWidget> {
                     IconButton(
                       onPressed: () {
                         bookMarkCubit.changeBookMark(widget.newModel);
-                        // BlocProvider.of<BookMarkCubit>(context).saveBookmarks(); // حفظ العلامة في Hive بعد تغييرها
+                        BlocProvider.of<BookMarkCubit>(context).saveBookmarks(); // حفظ العلامة في Hive بعد تغييرها
                       },
                       icon: widget.newModel.bookMark
                           ? Icon(CupertinoIcons.bookmark_fill)

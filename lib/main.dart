@@ -27,6 +27,7 @@ void main() async{
 
 
   WidgetsFlutterBinding.ensureInitialized();
+
   await Hive.initFlutter();
   Hive.registerAdapter((NewsModelAdapter()));
   await Hive.openBox<NewsModel>("Saved_newsBox");

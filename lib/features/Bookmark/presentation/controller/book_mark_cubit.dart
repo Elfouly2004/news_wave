@@ -18,27 +18,28 @@ class BookMarkCubit extends Cubit<BookMarkStates> {
     } else {
       removeToBookMarks(newModel: newModel);
     }
-
+    // saveBookmarks();
     emit(ChangeBookMarksColor());
-    saveBookmarks(); // احفظ التغييرات في Hive بعد التحديث
   }
 
   // إضافة العنصر إلى العلامات المرجعية
   void addToBookMarks({required NewsModel newModel}) {
     bookMarks.add(newModel);
+
     emit(BookMarksLoadedState(bookMarks)); // تحديث واجهة المستخدم
   }
 
   // إزالة العنصر من العلامات المرجعية
   void removeToBookMarks({required NewsModel newModel}) {
     bookMarks.remove(newModel);
+
     emit(BookMarksLoadedState(bookMarks)); // تحديث واجهة المستخدم
   }
 
   // حفظ البيانات في Hive
   Future<void> saveBookmarks() async {
     var box = Hive.box<List<NewsModel>>("Saved_newsBox");
-    await box.put("bookmark_key", bookMarks); // حفظ قائمة من NewsModel
+    await box.put("bookmark_key", bookMarks);
   }
 
   // استرجاع البيانات من Hive
@@ -48,9 +49,9 @@ class BookMarkCubit extends Cubit<BookMarkStates> {
 
     if (savedNews != null) {
       bookMarks = savedNews;
-      emit(BookMarksLoadedState(bookMarks)); // إصدار الحالة مع البيانات
+      emit(BookMarksLoadedState(bookMarks));
     } else {
-      emit(BookMarksLoadedState([])); // إصدار حالة مع قائمة فارغة في حالة عدم وجود بيانات
+      emit(BookMarksLoadedState([]));
     }
   }
 }

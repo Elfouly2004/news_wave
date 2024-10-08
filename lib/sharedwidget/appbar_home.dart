@@ -1,13 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:newsapp/features/News/presentation/controller/search_cubit/search_cubit.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import '../core/utils/Appcolors.dart';
 import '../core/utils/Appimages.dart';
 import '../features/setting/presentation/view/setting.dart';
-import 'Search.dart';
 
 class AppbarHome extends StatefulWidget {
   const AppbarHome({super.key});
@@ -17,6 +14,26 @@ class AppbarHome extends StatefulWidget {
 }
 
 class _AppbarHomeState extends State<AppbarHome> {
+  String? cachedImageUrl;
+
+  @override
+  void initState() {
+    super.initState();
+    loadImageUrl();
+  }
+
+  Future<void> loadImageUrl() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      cachedImageUrl = prefs.getString('userImageUrl');
+    });
+  }
+
+  Future<void> saveImageUrl(String imageUrl) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('userImageUrl', imageUrl);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -25,7 +42,8 @@ class _AppbarHomeState extends State<AppbarHome> {
         elevation: 0,
         backgroundColor: AppColors.white,
         toolbarHeight: 120,
-        leading: FutureBuilder(
+        leading: cachedImageUrl == null
+            ? FutureBuilder(
           future: FirebaseFirestore.instance.collection('users').get(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
@@ -33,19 +51,54 @@ class _AppbarHomeState extends State<AppbarHome> {
             }
 
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator(
-                color: AppColors.blue,
-              ));
+              return Center(
+                child: CircularProgressIndicator(
+                  color: AppColors.blue,
+                ),
+              );
             }
 
             final data = snapshot.data!.docs.first;
+            final imageUrl = data['imageurl'] ?? "";
+
+            // Save the image URL locally
+            saveImageUrl(imageUrl);
 
             return CircleAvatar(
               radius: 50,
-              backgroundImage: NetworkImage(data['imageurl']),
               backgroundColor: AppColors.white,
+              child: ClipOval(
+                child: CachedNetworkImage(
+                  imageUrl: imageUrl,
+                  placeholder: (context, url) => Center(
+                    child: CircularProgressIndicator(
+                      color: AppColors.blue,
+                    ),
+                  ),
+                  errorWidget: (context, url, error) =>
+                      Center(child: Icon(Icons.error)),
+                  fit: BoxFit.cover,
+                ),
+              ),
             );
           },
+        )
+            : CircleAvatar(
+          radius: 50,
+          backgroundColor: AppColors.white,
+          child: ClipOval(
+            child: CachedNetworkImage(
+              imageUrl: cachedImageUrl!,
+              placeholder: (context, url) => Center(
+                child: CircularProgressIndicator(
+                  color: AppColors.blue,
+                ),
+              ),
+              errorWidget: (context, url, error) =>
+                  Center(child: Icon(Icons.error)),
+              fit: BoxFit.cover,
+            ),
+          ),
         ),
         centerTitle: true,
         title: Column(
@@ -75,10 +128,6 @@ class _AppbarHomeState extends State<AppbarHome> {
             icon: Icon(Icons.settings, size: 30),
           )
         ],
-        // bottom: PreferredSize(
-        //     preferredSize: Size.fromHeight(0),
-        //     child:
-        // )
       ),
     );
   }
