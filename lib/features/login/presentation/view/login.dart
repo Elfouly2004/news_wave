@@ -132,7 +132,7 @@ class _loginscreenState extends State<loginscreen> {
                       // Provider.of<logincontroller>(context,listen: false).loginfirebase();
 
                       BlocProvider.of<LoginCubit>(context).
-                      Login(context: context);
+                      login(context: context);
 
                     },),
 
@@ -186,3 +186,5 @@ class _loginscreenState extends State<loginscreen> {
     );
   }
 }
+
+

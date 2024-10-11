@@ -182,6 +182,7 @@ class _fillprofileState extends State<fillprofile> {
 
                         return buttonshare(text: AppTexts.Next, onTap: () {
 
+
                           BlocProvider.of<FillprofileCubit>(context).Fillproile_Done( context: context, );
 
 
