@@ -4,8 +4,9 @@ import 'package:newsapp/core/utils/Appimages.dart';
 import 'package:newsapp/core/utils/Apptexts.dart';
 
 class anotherlogin extends StatelessWidget {
-  const anotherlogin ({super.key});
-
+  const anotherlogin ({super.key, this.onTap1, this.onTap2});
+final void Function()? onTap1;
+final void Function()? onTap2;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -14,9 +15,7 @@ class anotherlogin extends StatelessWidget {
       children: [
 
         GestureDetector(
-          onTap: () {
-
-          },
+          onTap: onTap1,
           child: Container(
             height: 47,
             width: 160,
@@ -38,9 +37,7 @@ class anotherlogin extends StatelessWidget {
         ) ,
 
         GestureDetector(
-          onTap: () {
-
-          },
+          onTap: onTap2,
           child: Container(
             height: 47,
             width: 174,

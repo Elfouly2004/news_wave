@@ -8,7 +8,7 @@ import 'package:newsapp/features/Editprofile/presentation/view/editprofile.dart'
 import 'package:newsapp/features/setting/presentation/view/setting.dart';
 import 'package:newsapp/features/setting/presentation/view/widgets/share_appbar.dart';
 import 'package:newsapp/features/setting/presentation/view/widgets/share_listile.dart';
-import 'package:firebase_auth/firebase_auth.dart'; // لإضافة FirebaseAuth
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../../../core/utils/Appcolors.dart';
 import '../../../../core/utils/Apptexts.dart';
@@ -20,6 +20,7 @@ class Profile extends StatelessWidget {
   Widget build(BuildContext context) {
     // جلب الـ uid للمستخدم الحالي
     final String? userId = FirebaseAuth.instance.currentUser?.uid;
+    final User? currentUser = FirebaseAuth.instance.currentUser;
 
     return StreamBuilder(
       // جلب بيانات المستخدم بناءً على uid الخاص به
@@ -30,14 +31,21 @@ class Profile extends StatelessWidget {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return Center(child: CircularProgressIndicator(color: AppColors.blue));
         }
 
         if (!snapshot.hasData || !snapshot.data!.exists) {
           return Center(child: Text('No user data found.'));
         }
 
-        final data = snapshot.data!.data() as Map<String, dynamic>;
+        // استخراج بيانات المستخدم مع التحقق من الحقول
+        final data = snapshot.data!.data() as Map<String, dynamic>? ?? {};
+
+        // التحقق من الحقول إذا كانت null وتوفير قيم بديلة
+        final String fullName = data['FullName'] ?? 'No Name';
+        final String email = data['Email'] ?? 'No Email';
+        final String phoneNumber = data['PhoneNumber'] ?? 'No Phone Number';
+        final String? imageUrl = data['imageurl'];
 
         return Scaffold(
           appBar: PreferredSize(
@@ -60,9 +68,9 @@ class Profile extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => Editprofile(
-                        Email: data["email"], // لاحظ تغيير المفتاح إلى "email"
-                        Fullname: data["FullName"],
-                        phone: data["PhoneNumber"],
+                        Email: email,
+                        Fullname: fullName,
+                        phone: phoneNumber,
                       ),
                     ),
                   ),
@@ -85,12 +93,12 @@ class Profile extends StatelessWidget {
                       shape: BoxShape.circle,
                       border: Border.all(color: AppColors.blue, width: 4),
                     ),
-                    child: data['imageurl'] == null
+                    child: imageUrl == null
                         ? Icon(Icons.photo)
                         : ClipRRect(
                       borderRadius: BorderRadius.circular(90),
                       child: Image.network(
-                        data["imageurl"],
+                        imageUrl,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -100,19 +108,19 @@ class Profile extends StatelessWidget {
                 ShareListile(
                   text2: "*",
                   text: AppTexts.fullname,
-                  title: Text(data['FullName']),
+                  title: Text(fullName),
                 ),
                 SizedBox(height: MediaQuery.sizeOf(context).height * 0.03),
                 ShareListile(
                   text2: "*",
                   text: AppTexts.Email,
-                  title: Text(data['email']),
+                  title: Text(email),
                 ),
                 SizedBox(height: MediaQuery.sizeOf(context).height * 0.03),
                 ShareListile(
                   text2: "*",
                   text: AppTexts.Phone,
-                  title: Text(data['PhoneNumber']),
+                  title: Text(phoneNumber),
                 ),
               ],
             ),

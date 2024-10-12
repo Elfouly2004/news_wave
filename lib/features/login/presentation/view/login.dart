@@ -12,6 +12,7 @@ import '../../../../sharedwidget/anotherlogin.dart';
 import '../../../../sharedwidget/button.dart';
 import '../../../../sharedwidget/checkRow.dart';
 import '../../../news/presentation/view/home_screen.dart';
+import '../../../signup/presentation/controller/signup_cubit.dart';
 import '../controller/login_states.dart';
 
 class loginscreen extends StatefulWidget {
@@ -151,7 +152,11 @@ class _loginscreenState extends State<loginscreen> {
                     SizedBox(height:MediaQuery.sizeOf(context).height*0.03 ,),
 
 
-                    anotherlogin(),
+                    anotherlogin(onTap1: null,
+                    onTap2:() {
+                      BlocProvider.of<LoginCubit>(context).signInWithGoogle();
+
+                    } ,),
 
 
                     SizedBox(height:MediaQuery.sizeOf(context).height*0.02 ,),

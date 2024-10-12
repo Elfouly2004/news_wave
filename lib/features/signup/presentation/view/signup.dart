@@ -44,6 +44,10 @@ class _SignupState extends State<Signup> {
 
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => fillprofile(),));
 
+          }else if(state is SignupGoogleState){
+
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => fillprofile(),));
+
           }
 
         },
@@ -169,7 +173,13 @@ class _SignupState extends State<Signup> {
                     SizedBox(height: MediaQuery.sizeOf(context).height * 0.01),
 
 
-                    anotherlogin(),
+                    anotherlogin(
+                     onTap2:() {
+                       BlocProvider.of<SignupCubit>(context).signInWithGoogle();
+
+                     } ,
+                      onTap1: null,
+                    ),
 
 
                     SizedBox(height: MediaQuery.sizeOf(context).height * 0.01),

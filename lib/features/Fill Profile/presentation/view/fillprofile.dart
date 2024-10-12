@@ -36,7 +36,7 @@ class _fillprofileState extends State<fillprofile> {
       body: BlocConsumer<FillprofileCubit,FillprofileStates>(
         listener: (context, state) {
              if (state is FillprofilFinishState ){
-               Navigator.push(context, MaterialPageRoute(builder: (context) => newspage(),));
+               Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => newspage(),));
              } else if(state is FillprofileLoadingState){
 
              }
@@ -185,9 +185,9 @@ class _fillprofileState extends State<fillprofile> {
 
                           BlocProvider.of<FillprofileCubit>(context).Fillproile_Done( context: context, );
 
+                          BlocProvider.of<FillprofileCubit>(context).saveProfileAfterGoogleSignIn();
 
                           // BlocProvider.of<FillprofileCubit>(context).savePerson();
-
 
 
                         },);

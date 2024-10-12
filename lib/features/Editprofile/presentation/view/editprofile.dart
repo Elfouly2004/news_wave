@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,9 +28,13 @@ class Editprofile extends StatefulWidget {
 }
 
 class _EditprofileState extends State<Editprofile> {
+  late String userId;
+
   @override
   void initState() {
     super.initState();
+    // Get the user ID from Firebase Authentication
+    userId = FirebaseAuth.instance.currentUser!.uid;
     final cubit = BlocProvider.of<EditprofileCubit>(context);
     cubit.Edit_fullname.text = widget.Fullname ?? '';
     cubit.Edit_Emailaddress.text = widget.Email ?? '';
@@ -48,16 +53,17 @@ class _EditprofileState extends State<Editprofile> {
         }
       },
       builder: (context, state) {
-        return StreamBuilder(
-          stream: FirebaseFirestore.instance.collection('users').snapshots(),
+        return StreamBuilder<DocumentSnapshot>(
+          stream: FirebaseFirestore.instance.collection('users').doc(userId).snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return Center(child: CircularProgressIndicator());
             }
 
-
-            final data = snapshot.data!.docs.first;
-            final uid = data.id;
+            final data = snapshot.data!;
+            if (!data.exists) {
+              return Center(child: Text('User not found.'));
+            }
 
             return ModalProgressHUD(
               inAsyncCall: state is EditprofileLoadingState,
@@ -78,14 +84,12 @@ class _EditprofileState extends State<Editprofile> {
                       style: GoogleFonts.acme(),
                     ),
                     actions: [
-
-                    IconButton(
-                            onPressed: () {
-                              BlocProvider.of<EditprofileCubit>(context)
-                                  .Editproile_Done(context, uid);
-                            },
-                            icon: Icon(CupertinoIcons.checkmark_alt, size: 30),
-
+                      IconButton(
+                        onPressed: () {
+                          BlocProvider.of<EditprofileCubit>(context)
+                              .Editproile_Done(context, userId);
+                        },
+                        icon: Icon(CupertinoIcons.checkmark_alt, size: 30),
                       )
                     ],
                   ),
@@ -118,7 +122,7 @@ class _EditprofileState extends State<Editprofile> {
                                       ? ClipRRect(
                                     borderRadius: BorderRadius.circular(90),
                                     child: Image.network(
-                                      data["imageurl"],
+                                      data["imageurl"] ?? '', // Use fetched image URL
                                       fit: BoxFit.cover,
                                     ),
                                   )
@@ -126,10 +130,8 @@ class _EditprofileState extends State<Editprofile> {
                                     borderRadius: BorderRadius.circular(90),
                                     child: Image.file(
                                       File(
-                                        BlocProvider.of<EditprofileCubit>(
-                                            context)
-                                            .EditPhoto!
-                                            .path,
+                                        BlocProvider.of<EditprofileCubit>(context)
+                                            .EditPhoto!.path,
                                       ),
                                       fit: BoxFit.cover,
                                     ),
@@ -162,8 +164,7 @@ class _EditprofileState extends State<Editprofile> {
                       BlocBuilder<EditprofileCubit, EditprofileStates>(
                         builder: (context, state) {
                           return CustomTextformfeild(
-                            controller:
-                            BlocProvider.of<EditprofileCubit>(context)
+                            controller: BlocProvider.of<EditprofileCubit>(context)
                                 .Edit_fullname,
                             formKey: null,
                             validator: null,
@@ -178,8 +179,7 @@ class _EditprofileState extends State<Editprofile> {
                       BlocBuilder<EditprofileCubit, EditprofileStates>(
                         builder: (context, state) {
                           return CustomTextformfeild(
-                            controller:
-                            BlocProvider.of<EditprofileCubit>(context)
+                            controller: BlocProvider.of<EditprofileCubit>(context)
                                 .Edit_Emailaddress,
                             formKey: null,
                             validator: (p0) => null,
@@ -194,8 +194,7 @@ class _EditprofileState extends State<Editprofile> {
                       BlocBuilder<EditprofileCubit, EditprofileStates>(
                         builder: (context, state) {
                           return CustomTextformfeild(
-                            controller:
-                            BlocProvider.of<EditprofileCubit>(context)
+                            controller: BlocProvider.of<EditprofileCubit>(context)
                                 .Edit_phonenumber,
                             formKey: null,
                             validator: (p0) => null,

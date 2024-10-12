@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:newsapp/features/signup/presentation/controller/signup_states.dart';
-
+import 'package:google_sign_in/google_sign_in.dart';
 import '../../../Fill Profile/presentation/view/fillprofile.dart';
 
 class SignupCubit extends Cubit<SignupStates> {
@@ -51,7 +51,7 @@ String? userid;
 
         // Save user's basic info in Firestore
         await FirebaseFirestore.instance.collection('users').doc(userid).set({
-          'email': Email.text.trim(),
+          'Email': Email.text.trim(),
           'password': Password.text.trim(),
           'userId': userid,
         });
@@ -59,9 +59,7 @@ String? userid;
         emit(SignupFinishState());
 
         // Clear fields after signup
-        Email.clear();
-        Password.clear();
-        Confirmpassword.clear();
+
 
         // Navigate to fillprofile page to complete the profile
 
@@ -78,6 +76,37 @@ String? userid;
       }
     }
   }
+
+
+
+  Future<UserCredential> signInWithGoogle() async {
+    emit(SignupLoadingState());
+
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+
+    // Emit state for successful Google signup
+    emit(SignupGoogleState());
+
+    // Return the user credential object
+    return userCredential;
+  }
+
+
+
+
 
   Validatorname(value) {
     if (value!.isEmpty || value == null) {
