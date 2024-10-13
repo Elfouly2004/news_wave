@@ -41,9 +41,11 @@ class _loginscreenState extends State<loginscreen> {
       } else if (state is LoginLoadingState) {
 
       } else if (state is LoginSuccessState) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return newspage();
-        },));
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => newspage()),
+              (Route<dynamic> route) => false, // This removes all previous routes
+        );
 
       }else if (state is LoginGoogleFailureState) {
         ScaffoldMessenger.of(context).showSnackBar(

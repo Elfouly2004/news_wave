@@ -93,9 +93,9 @@ class FillprofileCubit extends Cubit<FillprofileStates> {
         String? phone =phonenumber.text.trim();
         String? photo =myPhoto!.path;
         if( email.isNotEmpty&&full.isNotEmpty &&phone.isNotEmpty&&photo.isNotEmpty){
-          fullname.clear();
-          Emailaddress.clear();
-          phonenumber.clear();
+          fullname=="";
+          Emailaddress=="";
+          phonenumber=="";
           myPhoto=null;
         }
       } catch (e) {
