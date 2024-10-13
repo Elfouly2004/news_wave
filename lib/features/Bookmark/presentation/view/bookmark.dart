@@ -12,9 +12,6 @@ class BookMarksScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var bookMarkCubit = BlocProvider.of<BookMarkCubit>(context);
 
-    // Retrieve bookmarks when the screen is built
-    bookMarkCubit.getBookmarks();
-
     return BlocBuilder<BookMarkCubit, BookMarkStates>(
       builder: (context, state) {
         return ListViewForNews(

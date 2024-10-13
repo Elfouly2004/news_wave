@@ -8,6 +8,7 @@ class BookMarkCubit extends Cubit<BookMarkStates> {
   BookMarkCubit() : super(BookMarkInitialState());
 
   List<NewsModel> bookMarks = [];
+  var box = Hive.box<NewsModel>("Saved_newsBox");
 
   // تغيير حالة العلامة المرجعية (bookMark)
   void changeBookMark(NewsModel newModel) {
@@ -15,44 +16,32 @@ class BookMarkCubit extends Cubit<BookMarkStates> {
 
     if (newModel.bookMark) {
       addToBookMarks(newModel: newModel);
+
     } else {
       removeToBookMarks(newModel: newModel);
+
     }
     // saveBookmarks();
     emit(ChangeBookMarksColor());
   }
 
   // إضافة العنصر إلى العلامات المرجعية
-  void addToBookMarks({required NewsModel newModel}) {
+  void addToBookMarks({required NewsModel newModel})async {
     bookMarks.add(newModel);
-
+    await  box.put("ٍٍ${newModel.title}${newModel.publishedAt}",newModel);
     emit(BookMarksLoadedState(bookMarks)); // تحديث واجهة المستخدم
   }
 
   // إزالة العنصر من العلامات المرجعية
-  void removeToBookMarks({required NewsModel newModel}) {
+  void removeToBookMarks({required NewsModel newModel}) async{
     bookMarks.remove(newModel);
-
+  await  box.delete("${newModel.title}${newModel.publishedAt}");
     emit(BookMarksLoadedState(bookMarks)); // تحديث واجهة المستخدم
   }
 
-  // حفظ البيانات في Hive
-  Future<void> saveBookmarks() async {
-    var box = Hive.box<List<NewsModel>>("Saved_newsBox");
-    await box.put("bookmark_key", bookMarks);
-  }
 
-  // استرجاع البيانات من Hive
-  Future<void> getBookmarks() async {
-    var box = Hive.box<List<NewsModel>>("Saved_newsBox");
-    List<NewsModel>? savedNews = box.get("bookmark_key");
-
-    if (savedNews != null) {
-      bookMarks = savedNews;
-      emit(BookMarksLoadedState(bookMarks));
-    } else {
-      emit(BookMarksLoadedState([]));
-    }
+  getBookmarks() async {
+ bookMarks=box.values.toList();
   }
 }
 

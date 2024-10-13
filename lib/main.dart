@@ -30,6 +30,7 @@ void main() async{
 
   await Hive.initFlutter();
   Hive.registerAdapter((NewsModelAdapter()));
+  Hive.registerAdapter((SourceModelAdapter()));
   await Hive.openBox<NewsModel>("Saved_newsBox");
 
 
@@ -84,12 +85,13 @@ void main() async{
 
 }
 
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<BookMarkCubit>(context).getBookmarks();
     // final box = Hive.box<NewsModel>('Saved_newsBox');
     // final person= box.get("bookmark_key");
     // BlocProvider.of<BookMarkCubit>(context).getBookmarks();

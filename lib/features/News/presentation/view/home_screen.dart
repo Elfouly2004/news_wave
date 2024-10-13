@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:newsapp/core/utils/Appcolors.dart';
 import 'package:newsapp/core/utils/Appimages.dart';
+import 'package:newsapp/features/Bookmark/presentation/controller/book_mark_cubit.dart';
 import 'package:newsapp/features/News/presentation/view/homebody.dart';
 import 'package:newsapp/features/news/presentation/view/widgets/author.dart';
 import 'package:newsapp/sharedwidget/appbar_home.dart';
@@ -26,12 +27,16 @@ class _newspageState extends State<newspage> {
 
   int CurrentIndex =  0;
 
+
+
+
   List<Widget> screens  = [
     Homebody_News(),
     TopicScreen(),
     // Author(),
     BookMarksScreen(),
   ] ;
+
 
   @override
   Widget build(BuildContext context) {

@@ -78,7 +78,7 @@ class _NewWidgetState extends State<NewWidget> {
                     IconButton(
                       onPressed: () {
                         bookMarkCubit.changeBookMark(widget.newModel);
-                        BlocProvider.of<BookMarkCubit>(context).saveBookmarks(); // حفظ العلامة في Hive بعد تغييرها
+                        // BlocProvider.of<BookMarkCubit>(context).saveBookmarks(); // حفظ العلامة في Hive بعد تغييرها
                       },
                       icon: widget.newModel.bookMark
                           ? Icon(CupertinoIcons.bookmark_fill)
