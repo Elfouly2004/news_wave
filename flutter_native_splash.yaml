@@ -1,0 +1,11 @@
+flutter_native_splash:
+  # اللون الخاص بخلفية شاشة البداية
+  color: "#0F8ACF" # اللون الأزرق
+
+  # الصورة التي ستظهر في شاشة البداية
+  image: assets/images/splash.png
+
+  # إعدادات Android 12 وما بعده
+  android_12:
+    # تعيين اللون الأزرق للخلفية
+    color: "#0F8ACF"

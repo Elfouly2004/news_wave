@@ -3,10 +3,10 @@
 
 //لو عايز صوره اكونت جوجل
 
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cached_network_image/cached_network_image.dart'; // إضافة المكتبة
 import '../core/utils/Appcolors.dart';
 import '../core/utils/Appimages.dart';
 import '../features/setting/presentation/view/setting.dart';
@@ -71,33 +71,37 @@ class _AppbarHomeState extends State<AppbarHome> {
         backgroundColor: AppColors.white,
         toolbarHeight: 120,
         leading: profileImageUrl != null && profileImageUrl!.isNotEmpty
-            ? CircleAvatar(
-          radius: 60,
-          backgroundColor: AppColors.white,
-          child: ClipOval(
-            child: Image.network(
-              profileImageUrl!,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) =>
-              const Icon(Icons.error),
+            ? ClipRRect(
+          borderRadius: BorderRadius.circular(50),
+          child: CachedNetworkImage(
+            imageUrl: profileImageUrl!,
+            placeholder: (context, url) => const CircleAvatar(
+              radius: 50,
+              backgroundColor: Colors.transparent,
+              child: CircularProgressIndicator(color: AppColors.blue,), // عرض مؤشر تحميل أثناء انتظار تحميل الصورة
+            ),
+            errorWidget: (context, url, error) => const Icon(Icons.error), // في حال فشل تحميل الصورة
+            imageBuilder: (context, imageProvider) => CircleAvatar(
+              radius: 50,
+              backgroundImage: imageProvider, // الصورة المحملة
             ),
           ),
         )
             : const CircleAvatar(
-          radius: 60,
-          backgroundColor: AppColors.white,
-          child: Icon(Icons.person, size: 60),
+          radius: 50,
+          backgroundColor: Colors.transparent,
+          child: CircularProgressIndicator(), // مؤشر تحميل في حالة عدم وجود الصورة
         ),
         centerTitle: true,
         title: Column(
           children: [
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Image(
               image: AssetImage(AppImages.Newswavepic),
               height: 32,
               width: 93,
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Image(
               image: AssetImage(AppImages.Newswavetxt),
               height: 24,
@@ -114,23 +118,12 @@ class _AppbarHomeState extends State<AppbarHome> {
               );
             },
             icon: const Icon(Icons.settings, size: 30),
-          )
+          ),
         ],
       ),
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 

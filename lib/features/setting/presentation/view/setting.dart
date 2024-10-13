@@ -19,7 +19,7 @@ class Setting extends StatelessWidget {
           preferredSize: Size.fromHeight(100),
           child: ShareAppbar(
             
-            leading: IconButton(onPressed: () =>Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => newspage(),)) ,
+            leading: IconButton(onPressed: () =>Navigator.push(context,MaterialPageRoute(builder: (context) => newspage(),)) ,
                 icon:Icon(CupertinoIcons.xmark,size: 30,)),
             
             title: Text(AppTexts.setting,style: GoogleFonts.acme(),),
@@ -53,12 +53,26 @@ class Setting extends StatelessWidget {
 
             ShareListile(
               onTap: () {
-               Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => loginscreen(),));
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => loginscreen()),
+                      (Route<dynamic> route) => false, // This removes all previous routes
+                );
               },
-              leading: Icon(Icons.logout_outlined,size: 30,color: Colors.red,),
-               title: Text("Logout",style: TextStyle(fontWeight:FontWeight.bold ,color:Colors.red, ),),
-
+              leading: Icon(
+                Icons.logout_outlined,
+                size: 30,
+                color: Colors.red,
+              ),
+              title: Text(
+                "Logout",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.red,
+                ),
+              ),
             ),
+
 
 
 
