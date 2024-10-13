@@ -75,27 +75,50 @@ class LoginCubit extends Cubit<LoginStates> {
 
   }
 
+  Future<UserCredential?> signInWithGoogle(BuildContext context) async {
+    try {
+      emit(LoginLoadingState());
 
-  Future<UserCredential> signInWithGoogle() async {
+      // Trigger the authentication flow
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
+      // Check if the user canceled the sign-in
+      if (googleUser == null) {
+        // Show a message if no account was signed in
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('No Google account was selected. Please try again.'),
+          ),
+        );
 
-    emit(LoginLoadingState());
+        emit(LoginGoogleFailureState(errorMessage:"No Google account selected "));
+        return null; // Exit the function if sign-in is canceled
+      }
 
-    // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication? googleAuth = await googleUser.authentication;
 
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
 
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
-    emit(LoginSuccessState());
+      emit(LoginSuccessState());
 
-    // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+      // Once signed in, return the UserCredential
+      return await FirebaseAuth.instance.signInWithCredential(credential);
+    } catch (e) {
+      // Show a message in case of an error
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error during Google Sign-In: $e'),
+        ),
+      );
+
+      emit(LoginGoogleFailureState(errorMessage: e.toString()));
+      return null; // Return null in case of failure
+    }
   }
 
 

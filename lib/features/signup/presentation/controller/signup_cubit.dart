@@ -53,13 +53,19 @@ String? userid;
         await FirebaseFirestore.instance.collection('users').doc(userid).set({
           'Email': Email.text.trim(),
           'password': Password.text.trim(),
-          'userId': userid,
         });
 
         emit(SignupFinishState());
 
         // Clear fields after signup
-
+        String? email = Email.text.trim();
+        String? pass =Password.text.trim();
+        String? confirm =Confirmpassword.text.trim();
+        if( email.isNotEmpty&&pass.isNotEmpty&&confirm.isNotEmpty){
+          Email.clear();
+          Password.clear();
+          Confirmpassword.clear();
+        }
 
         // Navigate to fillprofile page to complete the profile
 

@@ -36,7 +36,11 @@ class _fillprofileState extends State<fillprofile> {
       body: BlocConsumer<FillprofileCubit,FillprofileStates>(
         listener: (context, state) {
              if (state is FillprofilFinishState ){
-               Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => newspage(),));
+               Navigator.pushAndRemoveUntil(
+                 context,
+                 MaterialPageRoute(builder: (context) => newspage()),
+                     (Route<dynamic> route) => false, // This removes all previous routes
+               );
              } else if(state is FillprofileLoadingState){
 
              }

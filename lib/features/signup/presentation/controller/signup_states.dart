@@ -10,6 +10,10 @@ class SignupFailureState extends SignupStates{
 
   final String errorMessage;SignupFailureState({required this.errorMessage});
 
+}class SignupGoogleFailureState extends SignupStates{
+
+  final String errorMessage;SignupGoogleFailureState({required this.errorMessage});
+
 }
 
 

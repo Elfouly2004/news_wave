@@ -45,8 +45,13 @@ class _loginscreenState extends State<loginscreen> {
           return newspage();
         },));
 
+      }else if (state is LoginGoogleFailureState) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(state.errorMessage)),
+        );
+
       }
-    },
+        },
 
         builder: (context, state) {
           return ModalProgressHUD(
@@ -154,9 +159,8 @@ class _loginscreenState extends State<loginscreen> {
 
                     anotherlogin(onTap1: null,
                     onTap2:() {
-                      BlocProvider.of<LoginCubit>(context).signInWithGoogle();
-
-                    } ,),
+                      BlocProvider.of<LoginCubit>(context).signInWithGoogle(context);
+                    },),
 
 
                     SizedBox(height:MediaQuery.sizeOf(context).height*0.02 ,),
@@ -166,10 +170,11 @@ class _loginscreenState extends State<loginscreen> {
                       children: [
 
                         Text(AppTexts.donthaveaccount),
+
                         TextButton(
                             onPressed: () {
                               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                return Signup();
+                                return Signup( );
                               },));
                             },
                             child: Text(AppTexts.Signup,style: TextStyle(fontSize: 14,color:  AppColors.blue,fontWeight: FontWeight.w600),))

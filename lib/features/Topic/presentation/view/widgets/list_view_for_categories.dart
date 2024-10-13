@@ -18,22 +18,20 @@ class ListViewForCategories extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, // number of items in each row
-            mainAxisSpacing: 8.0, // spacing between rows
-            crossAxisSpacing: 8.0, // spacing between columns
-          ),
-          itemCount:BlocProvider.of<CategoriesCubit>(context).categories.length,
+    return GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2, // number of items in each row
+          mainAxisSpacing: 8.0, // spacing between rows
+          crossAxisSpacing: 8.0, // spacing between columns
+        ),
+        itemCount:BlocProvider.of<CategoriesCubit>(context).categories.length,
 
-          itemBuilder: (c,index) {
-            return  CategoryWidget(
-              index: index,
-              categoryModel: BlocProvider.of<CategoriesCubit>(context). categories[index],
-            ) ;
-          } ),
-    );
+        itemBuilder: (c,index) {
+          return  CategoryWidget(
+            index: index,
+            categoryModel: BlocProvider.of<CategoriesCubit>(context). categories[index],
+          ) ;
+        } );
   }
 }
 class CategoryWidget extends StatelessWidget {

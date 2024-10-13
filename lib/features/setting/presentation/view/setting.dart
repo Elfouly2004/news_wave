@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:newsapp/core/utils/Appcolors.dart';
 import 'package:newsapp/core/utils/Apptexts.dart';
 import 'package:newsapp/features/login/presentation/view/login.dart';
@@ -53,6 +55,9 @@ class Setting extends StatelessWidget {
 
             ShareListile(
               onTap: () {
+                GoogleSignIn googlesignin=GoogleSignIn();
+                googlesignin.disconnect();
+                FirebaseAuth.instance.signOut();
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => loginscreen()),

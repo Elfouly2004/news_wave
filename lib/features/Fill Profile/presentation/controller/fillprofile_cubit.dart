@@ -82,6 +82,7 @@ class FillprofileCubit extends Cubit<FillprofileStates> {
               'FullName': fullname.text.trim(),
               'Email2': Emailaddress.text.trim(),
               'PhoneNumber': phonenumber.text.trim(),
+              'password': BlocProvider.of<SignupCubit>(context).Password.text.trim(),
               'Uid': userId,
             });
 

@@ -90,7 +90,7 @@ class _AppbarHomeState extends State<AppbarHome> {
             : const CircleAvatar(
           radius: 50,
           backgroundColor: Colors.transparent,
-          child: CircularProgressIndicator(), // مؤشر تحميل في حالة عدم وجود الصورة
+          child: CircularProgressIndicator(color: AppColors.blue,), // مؤشر تحميل في حالة عدم وجود الصورة
         ),
         centerTitle: true,
         title: Column(
